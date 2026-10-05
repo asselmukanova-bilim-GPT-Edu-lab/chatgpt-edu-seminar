@@ -135,3 +135,6 @@ slides.splice(11,0,{base:null,kind:'imported',image:'/*MODELSTAGESRU*/',localize
 {const at=slides.findIndex(s=>s.base===23),template=slides[at];slides.splice(at,1,...[5,6,7].map((page,i)=>({...template,base:i===0?23:1000+i,kind:'plugin-import',pluginPage:page,cards:[],title:[['Плагины: каталог инструментов','Плагиндер: құралдар каталогы'],['Ustaz BilimAI Mektep','Ustaz BilimAI Mektep'],['Tarbie BilimAI Mektep','Tarbie BilimAI Mektep']][i]})));}
 
 {const s=slides.find(s=>s.base===17);Object.assign(s,{kind:'prompt-activity',title:['Интерактивное задание: улучши промпт','Интерактивті тапсырма: промптты жақсарт'],lead:['',''],note:['Учителя переходят по QR-коду или кнопке к заданию в Padlet и улучшают промпт.','Мұғалімдер QR-код немесе батырма арқылы Padlet тапсырмасына өтіп, промптты жақсартады.']});}
+
+// Remove the two slides marked by the user.
+for(let i=slides.length-1;i>=0;i--)if([19,20].includes(slides[i].base))slides.splice(i,1);
