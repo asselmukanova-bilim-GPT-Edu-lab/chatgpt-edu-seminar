@@ -5,6 +5,8 @@ const qrcode=url=>{const q=qr(0,'M');q.addData(url);q.make();return q.createData
 let html=fs.readFileSync(path.join(__dirname,'deck.html'),'utf8');
 html=html.replace('/*DATA*/',fs.readFileSync(path.join(__dirname,'data.js'),'utf8')).replace('/*APP*/',fs.readFileSync(path.join(__dirname,'privacy-cases.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'ethics.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'app.js'),'utf8'));
 const vars={
+ '/*SIMMOREMENU*/':asset(path.join(root,'assets/chat-simulation/more-menu.png')),
+ '/*SIMMOREBUTTON*/':asset(path.join(root,'assets/chat-simulation/more-button.png')),
  '/*EDUWORKSPACE*/':asset(path.join(root,'assets/overview-examples/workspace.png')),
  '/*EDUCHATWORK*/':asset(path.join(root,'assets/overview-examples/chat-work.png')),
  '/*EDUPERSONAL*/':asset(path.join(root,'assets/overview-examples/personalization.png')),
