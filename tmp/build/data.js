@@ -126,3 +126,5 @@ const regionSlide=slides.find(s=>s.image==='/*IMPORT4*/');if(regionSlide){region
 for(const title of ['Где хранится работа','Work и готовый материал']){const i=slides.findIndex(s=>s.title[0]===title);if(i>=0)slides.splice(i,1);}
 
 slides.splice(11,0,{base:null,kind:'imported',image:'/*MODELSTAGESRU*/',localizedImages:['/*MODELSTAGESRU*/','/*MODELSTAGESKK*/'],m:0,c:0,t:0,cards:[],title:['Модели GPT Edu','GPT Edu модельдері'],lead:['',''],note:['','']});
+
+{const s=slides.find(s=>s.kind==='codex');s.title=['Codex: помощник для цифровых материалов','Codex: цифрлық материалдарға арналған көмекші'];s.note=['Описание возможностей: https://developers.openai.com/api/docs/guides/code-generation ; начало работы: https://learn.chatgpt.com/docs/quickstart . Педагогические примеры адаптированы для семинара.','Мүмкіндіктер сипаттамасы: https://developers.openai.com/api/docs/guides/code-generation ; жұмысты бастау: https://learn.chatgpt.com/docs/quickstart . Педагогикалық мысалдар семинарға бейімделген.'];}
