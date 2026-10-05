@@ -114,3 +114,5 @@ Object.assign(slides[5],{kind:'teacher-research',title:['ИИ в работе у
 Object.assign(slides[3],{kind:'national-project',title:['ChatGPT Edu: национальный проект','ChatGPT Edu: ұлттық жоба']});
 
 Object.assign(slides[6],{kind:'ai-paradigms',title:['Три парадигмы интеграции ИИ в обучение','ЖИ-ді оқытуға кіріктірудің үш парадигмасы']});
+
+const materialsToEnd=slides.findIndex(s=>s.title[0]==='Материалы семинара');if(materialsToEnd>=0)slides.push(...slides.splice(materialsToEnd,1));
