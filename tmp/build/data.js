@@ -120,3 +120,5 @@ const materialsToEnd=slides.findIndex(s=>s.title[0]==='Материалы сем
 const removedLessonImageIndex=slides.findIndex(s=>s.title[0]==='Изображения для урока');if(removedLessonImageIndex>=0)slides.splice(removedLessonImageIndex,1);
 
 const regionSlide=slides.find(s=>s.image==='/*IMPORT4*/');if(regionSlide){regionSlide.kind='regions';regionSlide.title=['Регионы · ChatGPT Edu','Өңірлер · ChatGPT Edu'];regionSlide.lead=['',''];}
+
+{const s=slides.find(s=>s.kind==='edu-limits');s.title=['ChatGPT Edu: лимиты и готовые файлы','ChatGPT Edu: лимиттер және дайын файлдар'];s.note=['',''];}
