@@ -138,3 +138,5 @@ slides.splice(11,0,{base:null,kind:'imported',image:'/*MODELSTAGESRU*/',localize
 
 // Remove the two slides marked by the user.
 for(let i=slides.length-1;i>=0;i--)if([19,20].includes(slides[i].base))slides.splice(i,1);
+
+{const i=slides.findIndex(s=>s.title[0]==='Полный разбор результата');if(i>=0)slides.splice(i,1);}
