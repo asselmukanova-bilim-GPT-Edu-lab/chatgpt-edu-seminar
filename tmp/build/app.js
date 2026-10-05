@@ -50,14 +50,7 @@ case 'edu-limits':return '<div class="limits-summary"><div class="limits-path">'
 ['Месяц · кредиты','Ай · кредиттер','Дополнительный ресурс, если выделен. «0 из 0» — дополнительные кредиты не выделены; основные лимиты действуют.','Бөлінген болса, қосымша ресурс. «0 из 0» — қосымша кредит бөлінбеген; негізгі лимиттер қолданылады.'],
 ['Изображения','Суреттер','В инструкции: 3 изображения в день. Обновление — на следующий день.','Нұсқаулықта: күніне 3 сурет. Келесі күні жаңарады.']
 ].map(t=>'<article class="limits-card"><h3>'+t[lang]+'</h3><p>'+t[2+lang]+'</p></article>').join('')+'</div><div class="limits-bottom"><p><strong>'+tr('Лимит личный. ','Лимит жеке. ')+'</strong>'+tr('Работа коллег не уменьшает ваш остаток. «Остаётся 63%» означает, что 63% ещё доступно.','Әріптестердің жұмысы сіздің қалдығыңызды азайтпайды. «Остаётся 63%» — әлі 63% қолжетімді.')+'</p><p><strong>'+tr('Лимит закончился? ','Лимит таусылды ма? ')+'</strong>'+tr('Посмотрите время сброса и дождитесь обновления.','Жаңару уақытын қарап, қалпына келуін күтіңіз.')+'</p></div><p class="limits-source">'+tr('По инструкции «ChatGPT_Edu_лимиты». Текущий остаток и условия проверяйте в своём аккаунте.','«ChatGPT_Edu_лимиты» нұсқаулығы бойынша. Ағымдағы қалдық пен шарттарды өз аккаунтыңыздан тексеріңіз.')+'</p></div>';
-case 'edu-overview':return '<div class="edu-overview">'+[
-['Workspace — рабочее пространство и выбранный аккаунт.','Workspace — жұмыс кеңістігі және таңдалған тіркелгі.'],
-['Чат и режим «Работа» — переключение между экранами.','Чат және «Жұмыс» режимі — экрандар арасында ауысу.'],
-['Персонализация — память, инструкции, стиль и тон ответов.','Даралау — жад, нұсқаулар, жауаптардың стилі мен үні.'],
-['Space и Page — пространство материалов и работа со страницей.','Space және Page — материалдар кеңістігі және бетпен жұмыс.'],
-['Project — организация работы над одной задачей или темой.','Project — бір тапсырма немесе тақырып бойынша жұмысты ұйымдастыру.'],
-['Плагины — где найти и открыть нужного помощника.','Плагиндер — қажетті көмекшіні табу және ашу.']
-].map(t=>{const [heading,...description]=t[lang].split(' — ');return '<article class="edu-block"><h3>'+heading+'</h3><p>'+description.join(' — ')+'</p></article>';}).join('')+'</div>';
+case 'edu-overview':return '<div class="edu-overview">'+eduOverviewTopics().map((t,i)=>{const [heading,...description]=t[lang].split(' — ');return '<button class="edu-block" data-action="edu-detail:'+i+'" aria-haspopup="dialog"><span class="edu-block-title">'+heading+'</span><span class="edu-block-description">'+description.join(' — ')+'</span></button>';}).join('')+'</div>';
 case 'cases':return privacyCardsHTML();case 'personal':return personalHTML();
 case 'image':return `<div class="split"><img class="demo-image" src="/*BG*/" alt="${tr('Светлый фон с орнаментом','Оюлы ашық фон')}"><div><div class="promptline">${tr('Фон 16:9. Светлый орнамент. Без текста.','16:9 фон. Ашық ою. Мәтінсіз.')}</div><p class="fine">${tr('Готовый файл из материалов семинара','Семинар материалдарындағы дайын файл')}</p></div></div>`;
 case 'work':return `<div class="flow"><div><b>01</b>${tr('Задание и источник','Тапсырма мен дереккөз')}</div><div><b>02</b>${tr('Готовый материал','Дайын материал')}</div><div><b>03</b>${tr('Сверка с целью','Мақсатпен салыстыру')}</div></div>${btn(tr('Открыть готовый пример','Дайын үлгіні ашу'),'workdemo','primary')}`;
@@ -101,7 +94,7 @@ function updatePreview(){const frame=$('#preview');if(frame)frame.srcdoc=miniFil
 function testProduct(){modal(tr('Проверка созданного задания','Жасалған тапсырманы тексеру'),`<iframe id="testFrame" title="${tr('Созданное задание','Жасалған тапсырма')}" sandbox="allow-scripts allow-forms" style="width:100%;height:410px;border:1px solid #cbd5e1;border-radius:12px"></iframe><p class="fine">${tr('Проверьте пустой, неверный и правильный ввод, затем сброс.','Бос, қате және дұрыс жауапты, кейін қайта бастауды тексеріңіз.')}</p>`);$('#testFrame').srcdoc=miniFile()}
 function validEditor(){let e=editorValues();return e.q.trim()&&e.answer.trim()&&e.why.trim()}
 function download(){if(!validEditor()){toast(tr('Заполните вопрос, ответ и объяснение.','Сұрақты, жауапты және түсіндірмені толтырыңыз.'));return}const url=URL.createObjectURL(new Blob([miniFile()],{type:'text/html;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='bilimai-task.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);toast(tr('Файл подготовлен к скачиванию','Файл жүктеуге дайын'))}
-document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;e.preventDefault();let [a,x,y]=b.dataset.action.split(':');if(a.startsWith('privacy-')){privacyAction(a,x,y);return;}switch(a){
+document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;e.preventDefault();let [a,x,y]=b.dataset.action.split(':');if(a.startsWith('privacy-')){privacyAction(a,x,y);return;}switch(a){case'edu-detail':{const topic=eduOverviewTopics()[Number(x)];if(topic){const [heading,...description]=topic[lang].split(' — ');modal(heading,'<p>'+esc(description.join(' — '))+'</p>');}break;}
 case'team-open':S.teamSelected=+x;render();$('.team-back')?.focus();break;
 case'team-back':{const selected=S.teamSelected;S.teamSelected=null;render();$('[data-action="team-open:'+selected+'"]')?.focus();break;}
 case'sim-personal':showSimPersonalization(Number(x)===1?1:0);break;
@@ -170,3 +163,11 @@ const items=[
 ];
 $('#slide').className='slide ai-paradigms';$('#slide').innerHTML=`<h1 id="slideTitle">${esc(slides[index].title[lang])}</h1><div class="paradigm-logo" role="img" aria-label="Bilim Group"></div><p class="paradigm-intro">${tr('Роль учителя меняется в зависимости от уровня использования технологии','Мұғалімнің рөлі технологияны қолдану деңгейіне қарай өзгереді')}</p><div class="paradigm-track" aria-hidden="true"></div><div class="paradigm-grid">${items.map((item,i)=>'<section class="paradigm-col"><div class="paradigm-number">'+(i+1)+'</div><div class="paradigm-copy"><h2>'+item[lang]+'</h2><p class="paradigm-english">'+item[2]+'</p><p class="paradigm-body">'+item[3+lang]+'</p></div></section>').join('')}</div><div class="paradigm-source">${tr('Источники: OECD Digital Education Outlook 2026, глава 7; Cukurova, 2024, British Journal of Educational Technology','Дереккөздер: OECD Digital Education Outlook 2026, 7-тарау; Cukurova, 2024, British Journal of Educational Technology')}<span>02</span></div>`;
 }
+
+function eduOverviewTopics(){return [
+['Workspace — рабочее пространство и выбранный аккаунт.','Workspace — жұмыс кеңістігі және таңдалған тіркелгі.'],
+['Чат и режим «Работа» — переключение между экранами.','Чат және «Жұмыс» режимі — экрандар арасында ауысу.'],
+['Персонализация — память, инструкции, стиль и тон ответов.','Даралау — жад, нұсқаулар, жауаптардың стилі мен үні.'],
+['Space и Page — пространство материалов и работа со страницей.','Space және Page — материалдар кеңістігі және бетпен жұмыс.'],
+['Project — организация работы над одной задачей или темой.','Project — бір тапсырма немесе тақырып бойынша жұмысты ұйымдастыру.']
+];}
