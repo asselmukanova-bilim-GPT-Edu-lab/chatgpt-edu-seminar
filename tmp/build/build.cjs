@@ -5,6 +5,11 @@ const qrcode=url=>{const q=qr(0,'M');q.addData(url);q.make();return q.createData
 let html=fs.readFileSync(path.join(__dirname,'deck.html'),'utf8');
 html=html.replace('/*DATA*/',fs.readFileSync(path.join(__dirname,'data.js'),'utf8')).replace('/*APP*/',fs.readFileSync(path.join(__dirname,'privacy-cases.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'ethics.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'app.js'),'utf8'));
 const vars={
+ '/*EDUWORKSPACE*/':asset(path.join(root,'assets/overview-examples/workspace.png')),
+ '/*EDUCHATWORK*/':asset(path.join(root,'assets/overview-examples/chat-work.png')),
+ '/*EDUPERSONAL*/':asset(path.join(root,'assets/overview-examples/personalization.png')),
+ '/*EDUSPACEPAGE*/':asset(path.join(root,'assets/overview-examples/space-page.png')),
+ '/*EDUPROJECT*/':asset(path.join(root,'assets/overview-examples/project.png')),
  '/*AITEACHINGPARADIGMS*/':asset(path.join(root,'assets/ai-teaching-paradigms.png')),
  '/*TEACHERAIRESEARCH*/':asset(path.join(root,'assets/teacher-ai-research.png')),
  '/*SIMUSAGEBUTTON*/':asset(path.join(root,'assets/chat-simulation/usage-button.png')),
