@@ -118,3 +118,5 @@ Object.assign(slides[6],{kind:'ai-paradigms',title:['Три парадигмы �
 const materialsToEnd=slides.findIndex(s=>s.title[0]==='Материалы семинара');if(materialsToEnd>=0)slides.push(...slides.splice(materialsToEnd,1));
 
 const removedLessonImageIndex=slides.findIndex(s=>s.title[0]==='Изображения для урока');if(removedLessonImageIndex>=0)slides.splice(removedLessonImageIndex,1);
+
+const regionSlide=slides.find(s=>s.image==='/*IMPORT4*/');if(regionSlide){regionSlide.kind='regions';regionSlide.title=['Регионы · ChatGPT Edu','Өңірлер · ChatGPT Edu'];regionSlide.lead=['',''];}
