@@ -145,3 +145,5 @@ for(let i=slides.length-1;i>=0;i--)if([19,20].includes(slides[i].base))slides.sp
 
 // Move current slide 22 to position 19.
 {const i=slides.findIndex(s=>s.base===24);if(i>=0){const [s]=slides.splice(i,1);slides.splice(18,0,s);}}
+
+{const i=slides.findIndex(s=>s.kind==='prompt-activity');slides.splice(i+1,0,{...slides[i],base:1003,kind:'prompt-padlet',title:['Интерактивное задание: Padlet','Интерактивті тапсырма: Padlet'],note:['Размещение улучшенного промпта в Padlet.','Жақсартылған промптты Padlet-ке жариялау.']});}
