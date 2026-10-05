@@ -124,3 +124,5 @@ const regionSlide=slides.find(s=>s.image==='/*IMPORT4*/');if(regionSlide){region
 {const s=slides.find(s=>s.kind==='edu-limits');s.title=['ChatGPT Edu: лимиты и готовые файлы','ChatGPT Edu: лимиттер және дайын файлдар'];s.note=['',''];}
 
 for(const title of ['Где хранится работа','Work и готовый материал']){const i=slides.findIndex(s=>s.title[0]===title);if(i>=0)slides.splice(i,1);}
+
+slides.splice(11,0,{base:null,kind:'imported',image:'/*MODELSTAGESRU*/',localizedImages:['/*MODELSTAGESRU*/','/*MODELSTAGESKK*/'],m:0,c:0,t:0,cards:[],title:['Модели GPT Edu','GPT Edu модельдері'],lead:['',''],note:['','']});
