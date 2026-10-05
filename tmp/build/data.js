@@ -116,3 +116,5 @@ Object.assign(slides[3],{kind:'national-project',title:['ChatGPT Edu: нацио
 Object.assign(slides[6],{kind:'ai-paradigms',title:['Три парадигмы интеграции ИИ в обучение','ЖИ-ді оқытуға кіріктірудің үш парадигмасы']});
 
 const materialsToEnd=slides.findIndex(s=>s.title[0]==='Материалы семинара');if(materialsToEnd>=0)slides.push(...slides.splice(materialsToEnd,1));
+
+const removedLessonImageIndex=slides.findIndex(s=>s.title[0]==='Изображения для урока');if(removedLessonImageIndex>=0)slides.splice(removedLessonImageIndex,1);
