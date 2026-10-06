@@ -203,3 +203,6 @@ if(historyCombined)Object.assign(historyCombined,{title:["Археологиче
 
 // Programme supplied by the seminar organiser; insert before contacts.
 slides.splice(slides.findIndex(s=>s.kind==="social-contacts"),0,{"base": 6003, "kind": "champions-program", "m": 3, "c": 6, "t": 0, "title": ["ChatGPT Edu CHAMPIONS", "ChatGPT Edu CHAMPIONS"], "lead": ["", ""], "cards": [], "note": ["Программа для школьных учителей, октябрь–декабрь 2026. Данные из изображения, предоставленного организатором. Дедлайн отбора — 20 октября 2026.", "Мектеп мұғалімдеріне арналған бағдарлама, қазан–желтоқсан 2026. Деректер ұйымдастырушы берген суреттен алынды. Іріктеу дедлайны — 20 қазан 2026."]});
+
+// Cover text follows the presentation language.
+slides[0].bilingualCover=true;
