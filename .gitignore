@@ -23,3 +23,7 @@ html_review.txt
 !tmp/build/image9.png
 tmp/import-session/*
 !tmp/import-session/*.PNG
+
+outputs/Seminar-Portable/
+!tmp/build/package-portable.py
+!tmp/build/vendor-icons.py

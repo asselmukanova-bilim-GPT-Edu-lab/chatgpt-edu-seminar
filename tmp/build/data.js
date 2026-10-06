@@ -200,3 +200,6 @@ if(historyCombined)Object.assign(historyCombined,{title:["Археологиче
 
 // RU selects the English lesson; KK selects the Kazakh lesson.
 {const s=slides.find(s=>s.base===35);if(s)Object.assign(s,{"m": 3, "c": 5, "t": 1, "title": ["Word Crafters · английский язык, 5 класс", "Сөз зергерлері · қазақ тілі, 5-сынып"], "lead": ["", ""], "cards": [], "note": ["RU открывает английскую адаптацию, KK — казахскую игру. Цели отображаются на стартовом экране. Английские цели адаптированы под те же навыки без присвоения кодов казахской программы.", "KK — қазақ тілі сайысы, RU — ағылшын тіліне бейімделген сайыс. Оқу мақсаттары бастапқы экранда көрсетілген."], "kind": "soz-game", "base": 35});}
+
+// Programme supplied by the seminar organiser; insert before contacts.
+slides.splice(slides.findIndex(s=>s.kind==="social-contacts"),0,{"base": 6003, "kind": "champions-program", "m": 3, "c": 6, "t": 0, "title": ["ChatGPT Edu CHAMPIONS", "ChatGPT Edu CHAMPIONS"], "lead": ["", ""], "cards": [], "note": ["Программа для школьных учителей, октябрь–декабрь 2026. Данные из изображения, предоставленного организатором. Дедлайн отбора — 20 октября 2026.", "Мектеп мұғалімдеріне арналған бағдарлама, қазан–желтоқсан 2026. Деректер ұйымдастырушы берген суреттен алынды. Іріктеу дедлайны — 20 қазан 2026."]});

@@ -11,7 +11,7 @@ for part in ([int(sys.argv[1])] if len(sys.argv)>1 else (1,2)):
     folder=ROOT/f'part-{part}'
     source=(folder/'index.html').read_text(encoding='utf-8')
     slides=json.loads(re.search(r'const slides=(.*?);\s*const chapters=',source,re.S).group(1))
-    assert len(slides)==(18 if part==1 else 26)
+    assert len(slides)==(18 if part==1 else 27)
     # All relative URLs, including those constructed by JavaScript, resolve to
     # the published resource directory when this HTML is opened from Downloads.
     downloadable=re.sub(r'<head\b[^>]*>',lambda m:m.group(0)+f'\n<base href="{SITE}part-{part}/">\n',source,count=1,flags=re.I)
