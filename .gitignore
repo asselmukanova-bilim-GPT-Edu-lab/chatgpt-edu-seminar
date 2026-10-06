@@ -14,6 +14,11 @@ tmp/build/*
 !tmp/build/qrcode.cjs
 !tmp/build/Inter.ttf
 !tmp/build/Inter-OFL.txt
+!tmp/build/publish-downloads.py
+outputs/*.zip
+assets/*_preview.png
+assets/Part2_*removal.png
+html_review.txt
 !tmp/build/image8.jpeg
 !tmp/build/image9.png
 tmp/import-session/*

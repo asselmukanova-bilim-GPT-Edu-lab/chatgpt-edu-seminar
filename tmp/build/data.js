@@ -147,3 +147,56 @@ for(let i=slides.length-1;i>=0;i--)if([19,20].includes(slides[i].base))slides.sp
 {const i=slides.findIndex(s=>s.base===24);if(i>=0){const [s]=slides.splice(i,1);slides.splice(18,0,s);}}
 
 {const i=slides.findIndex(s=>s.kind==='prompt-activity');slides.splice(i+1,0,{...slides[i],base:1003,kind:'prompt-padlet',title:['Интерактивное задание: Padlet','Интерактивті тапсырма: Padlet'],note:['Размещение улучшенного промпта в Padlet.','Жақсартылған промптты Padlet-ке жариялау.']});}
+
+/* COMBINED_USTAZ */
+{const overview=slides.find(s=>s.base===1001);if(overview){overview.kind='ustaz-overview';overview.pluginPage=undefined;overview.cards=[];overview.t=0;overview.note=['Покажите качественную карточку плагина и пять типов результатов; каждый скриншот открывается крупно. Объясните связь материала с исходными данными.','Плагин карточкасын және бес нәтиже түрін көрсетіңіз; әр скриншот үлкейтіледі. Материал мен бастапқы деректердің байланысын түсіндіріңіз.'];}const duplicate=slides.findIndex(s=>s.base===25);if(duplicate>=0)slides.splice(duplicate,1);}
+
+/* COMBINED_TARBIE */
+{const overview=slides.find(s=>s.base===1002);if(overview){overview.kind='tarbie-overview';overview.cards=[];overview.t=0;overview.note=['Карточка Tarbie и пять примеров материалов. Нажмите на скриншот для увеличения.','Tarbie карточкасы мен бес материал үлгісі. Скриншотты үлкейту үшін басыңыз.'];}const duplicate=slides.findIndex(s=>s.base===26);if(duplicate>=0)slides.splice(duplicate,1);}
+
+/* USAGE_OVERVIEW_TITLE */
+{const s=slides.find(s=>s.kind==='edu-limits');if(s)s.title=["ChatGPT Edu: организация работы и лимиты", "ChatGPT Edu: жұмысты ұйымдастыру және лимиттер"];}
+
+/* TWO_BILIM_ASSISTANTS */
+{const s=slides.find(s=>s.base===24);if(s){s.cards=s.cards.filter(c=>!c[0].includes('Tarbieshi'));s.note=["Выберите Ustaz для учебных материалов или Tarbie для воспитательной работы.", "Оқу материалдары үшін Ustaz, тәрбие жұмысы үшін Tarbie таңдаңыз."];}}
+
+/* REMOVE_PART_TWO_SLIDES_11_12 */
+for(let i=slides.length-1;i>=0;i--)if([28,29].includes(slides[i].base))slides.splice(i,1);
+
+/* ANATOMY_DEMO_SLIDE_22 */
+{const s=slides.find(s=>s.base===41);if(s)Object.assign(s,{"title": ["Анатомия — интерактивный 3D-атлас", "Анатомия — интерактивті 3D-атлас"], "lead": ["", ""], "cards": [], "kind": "anatomy-demo", "note": ["Покажите вращение и увеличение 3D-модели, переключение слоёв и схемы тканей. Для крупного показа откройте атлас в отдельной вкладке.", "3D модельді айналдыруды, үлкейтуді, қабаттар мен тін сызбаларын көрсетіңіз. Үлкен экран үшін атласты бөлек қойындыда ашыңыз."]});}
+
+/* WATER_DEMO_SLIDE_23 */
+{const s=slides.find(s=>s.base===42);if(s)Object.assign(s,{"title": ["Круговорот воды — интерактивная модель", "Су айналымы — интерактивті модель"], "lead": ["", ""], "cards": [], "kind": "water-demo", "note": ["Покажите процессы круговорота воды, анимацию, подземные воды и регулятор солнечного нагрева. Для крупного показа откройте модель в отдельной вкладке.", "Су айналымының үдерістерін, анимацияны, жерасты суларын және күн қызуының реттегішін көрсетіңіз. Үлкен экран үшін модельді бөлек қойындыда ашыңыз."]});}
+
+/* ANION_DEMO_SLIDE_24 */
+{const s=slides.find(s=>s.base===43);if(s)Object.assign(s,{"title": ["Анионы — виртуальная лабораторная работа №3", "Аниондар — №5 виртуалды зертхана"], "lead": ["", ""], "cards": [], "kind": "anion-demo", "note": ["Покажите выбор опыта и реактивов, виртуальные наблюдения и журнал результатов. Работа на казахском языке. Для крупного показа откройте лабораторию в отдельной вкладке.", "Тәжірибе мен реактивтерді таңдауды, виртуалды бақылауларды және нәтижелер журналын көрсетіңіз. Үлкен экран үшін зертхананы бөлек қойындыда ашыңыз."]});}
+
+/* GRAVITY_DEMO_SLIDE_25 */
+{const s=slides.find(s=>s.base===44);if(s)Object.assign(s,{"title": ["Сила притяжения — интерактивная модель", "Тартылыс — интерактивті көрнекілік"], "lead": ["", ""], "cards": [], "kind": "gravity-demo", "note": ["Покажите орбиту Луны, зависимость силы от массы и расстояния, сравнение тяжести на Земле и Луне. Игра занимает всю ширину без уменьшения.", "Айдың орбитасын, күштің масса мен арақашықтыққа тәуелділігін және Жер мен Айдағы ауырлық күшін көрсетіңіз. Көрнекілік толық енде көрсетіледі."]});}
+
+/* LOGIC_QUIZ_SLIDE_15 */
+{const s=slides.find(s=>s.base===34);if(s)Object.assign(s,{"title": ["Математическая логика — викторина для 7–8 классов", "Логика әлемі — 7–8-сыныпқа арналған викторина"], "lead": ["", ""], "cards": [], "kind": "logic-demo", "note": ["Викторина из предоставленного HTML: 24 вопроса для 7–8 классов на казахском языке. Выберите номер, ответьте и прочитайте объяснение. Покажите подсчёт баллов и сброс игры.", "Берілген HTML файлынан алынған 7–8-сыныпқа арналған 24 сұрақ. Нөмірді таңдап, жауап беріп, түсіндірмесін оқыңыз. Ұпай санауды және қайта бастауды көрсетіңіз."]});}
+
+/* REMOVE_MARKED_DEMO_SLIDES */
+for(let i=slides.length-1;i>=0;i--)if([33,37,39].includes(slides[i].base))slides.splice(i,1);
+
+/* REMOVE_HTML_INTRO_AND_FRACTIONS */
+for(let i=slides.length-1;i>=0;i--)if([30,32].includes(slides[i].base))slides.splice(i,1);
+
+// Updated final CHAMPIONS slide from the user-provided PowerPoint.
+const championsSlide=slides.find(s=>s.title[0]==="Codex и Champions");if(championsSlide)Object.assign(championsSlide,{"kind": "champions", "title": ["CHAMPIONS · обмен опытом педагогов", "CHAMPIONS · педагогтердің тәжірибе алмасуы"], "lead": ["", ""], "note": ["Слайд адаптирован из Bilim_AI_CHAMPIONS_KZ_v3 (2).pptx. Сохранены иллюстрации и ссылка на анкету.", "Слайд Bilim_AI_CHAMPIONS_KZ_v3 (2).pptx файлынан бейімделді. Иллюстрациялар мен сауалнама сілтемесі сақталды."]});
+
+const historyCombined=slides.find(s=>s.kind==="history");if(historyCombined)historyCombined.title=["История Казахстана · хронология и археология","Қазақстан тарихы · хронология және археология"];
+
+// Chronology removed at the user request; archaeology remains on this slide.
+if(historyCombined)Object.assign(historyCombined,{title:["Археологические памятники Казахстана","Қазақстанның археологиялық ескерткіштері"],note:["Археологическая игра: карта, описание памятников и викторины.","Археологиялық ойын: карта, ескерткіштерді сипаттау және викториналар."]});
+
+// Grade 5 Kazakh language team game, page 18.
+{const s=slides.find(s=>s.base===35);if(s)Object.assign(s,{"m": 3, "c": 5, "t": 1, "title": ["Сөз зергерлері · казахский язык, 5 класс", "Сөз зергерлері · қазақ тілі, 5-сынып"], "lead": ["", ""], "cards": [], "note": ["Соревнование двух команд: 12 заданий по целям 5.1.2.1, 5.2.3.1, 5.4.2.1. Игра полностью на казахском. Қазақша озвучивание доступно при установленном голосе kk; иначе текст можно прочитать вслух.", "Екі топтың сайысы: 5.1.2.1, 5.2.3.1, 5.4.2.1 мақсаттарына сай 12 тапсырма. Қазақша дауыс орнатылмаса, мәтінді дауыстап оқуға болады."], "kind": "soz-game", "base": 35});}
+
+// Final communication slide, from user-provided QR references.
+{const s=slides.find(s=>s.kind==="champions");if(s)Object.assign(s,{"base": null, "kind": "social-contacts", "image": "media/73e8c65a9a112685761ca134.png", "m": 0, "c": 0, "t": 0, "cards": [], "title": ["Каналы связи BilimAI", "BilimAI байланыс арналары"], "lead": ["", ""], "note": ["Каналы связи из предоставленных изображений. QR-коды прочитаны: Telegram-сообщество, Instagram и WhatsApp-канал. Ссылки YouTube, WhatsApp-контакта и Telegram-бота взяты из указанных имён и номера.", "Берілген суреттердегі байланыс арналары. Telegram қауымдастығы, Instagram және WhatsApp арнасының QR-кодтары оқылды. YouTube, WhatsApp байланысы және Telegram ботының сілтемелері көрсетілген атаулар мен нөмірден алынды."]});}
+
+// RU selects the English lesson; KK selects the Kazakh lesson.
+{const s=slides.find(s=>s.base===35);if(s)Object.assign(s,{"m": 3, "c": 5, "t": 1, "title": ["Word Crafters · английский язык, 5 класс", "Сөз зергерлері · қазақ тілі, 5-сынып"], "lead": ["", ""], "cards": [], "note": ["RU открывает английскую адаптацию, KK — казахскую игру. Цели отображаются на стартовом экране. Английские цели адаптированы под те же навыки без присвоения кодов казахской программы.", "KK — қазақ тілі сайысы, RU — ағылшын тіліне бейімделген сайыс. Оқу мақсаттары бастапқы экранда көрсетілген."], "kind": "soz-game", "base": 35});}
