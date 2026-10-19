@@ -398,10 +398,11 @@ const key=keys[s.kind];if(!key)return;
 const slide=$('#slide'),frame=slide.querySelector('iframe');if(!frame)return;
 const target=new URL(frame.getAttribute('src'),'https://asselmukanova-bilim-gpt-edu-lab.github.io/chatgpt-edu-seminar/part-2/');
 target.searchParams.delete('v');
+const frameURL=new URL(frame.getAttribute('src'),document.baseURI);frameURL.searchParams.set('v','20261019-qr-overlay');frame.src=frameURL.href;
 const qrKey=key+(['ana','anatomy'].includes(key)?'':(lang?'_kk':'_ru'));
 const stage=document.createElement('div');stage.className='subject-view-stage';
 while(slide.firstChild)stage.append(slide.firstChild);slide.append(stage);
 const rail=document.createElement('aside');rail.className='subject-view-rail';
-rail.innerHTML=`<a href="${esc(target.href)}" target="_blank" rel="noopener" class="subject-view-qr"><img src="assets/subject-qr/${qrKey}.svg" alt="${tr('QR-код этого задания','Осы тапсырманың QR-коды')}"><strong>${tr('Открыть на телефоне','Телефонда ашу')}</strong><span>${tr('Это задание · просмотр','Осы тапсырманы көру')} ↗</span></a>`;
+rail.innerHTML=`<a href="${esc(target.href)}" target="_blank" rel="noopener" class="subject-view-qr"><img src="assets/subject-qr/${qrKey}.svg" alt="${tr('QR-код этого задания','Осы тапсырманың QR-коды')}"><strong>${tr('Просмотр','Көру')}</strong><span>${tr('Это задание · просмотр','Осы тапсырманы көру')} ↗</span></a>`;
 slide.append(rail);
 }

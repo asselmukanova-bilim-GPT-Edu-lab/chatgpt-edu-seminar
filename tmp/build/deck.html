@@ -266,14 +266,19 @@
 
 .slide.route-style .welcome-intro,.slide.route-style ol.welcome-rules{font-size:18px;line-height:1.32;color:#202638;margin:0 0 12px}.slide.route-style ol.welcome-rules{padding-left:22px;margin-bottom:0}.slide.route-style ol.welcome-rules li{margin:0 0 10px;padding-left:2px}.slide.route-style ol.welcome-rules li:last-child{margin-bottom:0}
 
-/* A separate edge rail keeps viewing QR codes clear of activity content. */
-.subject-view-stage{position:absolute;inset:0 160px 0 0;overflow:hidden}
-.subject-view-rail{position:absolute;inset:0 0 0 auto;width:160px;display:flex;align-items:flex-end;padding:14px 8px;background:#f8f8ff;border-left:1px solid #e1def7}
-.subject-view-qr{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;padding:7px 0 12px;border-radius:14px;background:white;border:1px solid #e1def7;text-align:center;text-decoration:none;color:#24204e}
-.subject-view-qr img{display:block;width:140px;height:140px;max-width:100%}
-.subject-view-qr strong{font-size:16px;line-height:1.25;padding:0 5px}
-.subject-view-qr span{font-size:12px;line-height:1.35;padding:0 6px;color:#57516d}
+/* Compact viewing QR overlays; activities retain the full slide area. */
+.subject-view-stage{position:absolute;inset:0;overflow:hidden}
+.subject-view-rail{position:absolute;z-index:5;top:8px;right:10px;width:98px;pointer-events:none}
+.subject-view-qr{display:flex;flex-direction:column;align-items:center;gap:1px;padding:3px 3px 6px;border-radius:9px;background:#fff;border:1px solid #e1def7;box-shadow:0 2px 8px #20204412;text-align:center;text-decoration:none;color:#24204e;pointer-events:auto}
+.subject-view-qr img{display:block;width:90px;height:90px;max-width:100%}
+.subject-view-qr strong{font-size:11px;line-height:1.2;font-weight:600}
+.subject-view-qr span{display:none}
 .subject-view-qr:focus-visible{outline:3px solid #603df0;outline-offset:2px}
+.soz-game-slide .subject-view-rail{top:auto;right:auto;bottom:5px;left:8px}
+.ana-uni-slide .subject-view-rail{top:auto;bottom:5px;right:10px}
+.anatomy-demo-slide .subject-view-rail{top:8px;right:150px}
+.anion-demo-slide .subject-view-rail{top:8px}
+
 </style></head><body>
 <header><div class="brand"><img src="/*LOGO*/" alt="BilimAI"><span>BilimAI <span style="font-weight:400;color:#718096">/ ChatGPT Edu</span></span></div><nav class="tools" aria-label="Управление"><button id="menuBtn"></button><button id="notesBtn"></button><button id="sourcesBtn"></button><button id="fullBtn" aria-label="Полный экран">⛶</button><div class="lang"><button id="ru" lang="ru">RU</button><button id="kk" lang="kk">KK</button></div></nav></header>
 <main class="stage-wrap"><div class="stage" id="stage"><section class="slide" id="slide" aria-labelledby="slideTitle"></section></div></main>
