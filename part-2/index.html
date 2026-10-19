@@ -135,6 +135,15 @@
 .html-workshop-slide .hw-checks label{font-size:20px;line-height:1.35;margin:0;align-items:center;gap:12px}
 .html-workshop-slide .hw-checks input{width:21px;height:21px;flex-basis:21px}
 .html-workshop-slide .hw-link{align-self:flex-start;margin:0;padding:4px 0;font-size:18px}
+
+/* A separate edge rail keeps viewing QR codes clear of activity content. */
+.subject-view-stage{position:absolute;inset:0 160px 0 0;overflow:hidden}
+.subject-view-rail{position:absolute;inset:0 0 0 auto;width:160px;display:flex;align-items:flex-end;padding:14px 8px;background:#f8f8ff;border-left:1px solid #e1def7}
+.subject-view-qr{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;padding:7px 0 12px;border-radius:14px;background:white;border:1px solid #e1def7;text-align:center;text-decoration:none;color:#24204e}
+.subject-view-qr img{display:block;width:140px;height:140px;max-width:100%}
+.subject-view-qr strong{font-size:16px;line-height:1.25;padding:0 5px}
+.subject-view-qr span{font-size:12px;line-height:1.35;padding:0 6px;color:#57516d}
+.subject-view-qr:focus-visible{outline:3px solid #603df0;outline-offset:2px}
 </style><!-- Inter font license
 Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter)
 
@@ -448,6 +457,7 @@ if(s.kind==='national-project')renderNationalProject();
 if(s.kind==='ai-paradigms')renderAIParadigms();
 if(s.kind==='route')$('#slide .lead')?.remove();
 if(s.simulation){const targets=[['chat','Чат',45.1,1.1,6.1,4.3],['work','Работа',51.2,1.1,7.2,4.3],['profile','Профиль CS',0.2,95.1,2.3,4.5],['sidebar','Плагины',0.2,19.0,2.3,4.1],['more','Ещё',0.2,24.8,2.3,4.5]];if(S.simMode==='work')targets.push(['plugins','Плагины',45.0,57.9,5.6,4.5],['model','Выбрать модель',59.9,51.8,9.1,3.9]);$('#slide .content').innerHTML=`<div class="simulation-screen" data-mode="${S.simMode}"><img class="imported-slide" src="${S.simMode==='chat'?s.chatImage:s.image}" alt="${esc(s.title[lang])}">${targets.map(([id,label,x,y,w,h])=>`<button class="sim-hotspot" data-action="sim:${id}" aria-label="${esc(label)}" title="${esc(label)}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%">${id==='more'?'<img class="sim-more-button" src="media/0c3ecf3f40c601497e2742f9.png" alt="">':id==='model'?'<span class="sim-model-button-image"><img src="media/a4bf51d34469cc92badafa49.png" alt=""></span>':''}</button>`).join('')}</div>`;}
+addSubjectViewQR(s);
 $('#slide').classList.toggle('gaps-style',s.kind==='gaps');$('#slide').classList.toggle('route-style',s.kind==='route');$('#slide').classList.toggle('edu-style',s.kind==='edu-overview');$('#menuBtn').textContent=tr('Главы','Тараулар');$('#notesBtn').textContent=tr('Заметки','Жазбалар');$('#sourcesBtn').textContent=tr('Источники','Дереккөздер');$('#fullBtn').setAttribute('aria-label',tr('Полный экран','Толық экран'));$('#prev').setAttribute('aria-label',tr('Назад','Артқа'));$('#next').setAttribute('aria-label',tr('Далее','Келесі'));$('#closeDialog').setAttribute('aria-label',tr('Закрыть','Жабу'));$('#ru').classList.toggle('active',!lang);$('#kk').classList.toggle('active',!!lang);$('#ru').setAttribute('aria-pressed',!lang);$('#kk').setAttribute('aria-pressed',!!lang);$('#page').textContent=`${String(index+1).padStart(2,'0')} / ${slides.length}`;let start=slides.slice(originalIndex(index)<23||s.kind==='imported'?0:displayIndex(23),index).reduce((a,b)=>a+b.m,0);$('#timing').textContent=`${hh(start)}–${hh(start+s.m)} · ${s.m} ${tr('мин','мин')}`;$('#progress').style.width=(index+1)/slides.length*100+'%';$('#keyhint').textContent=tr('← → / Пробел','← → / Бос орын');$('#prev').disabled=index===0;$('#next').disabled=index===slides.length-1;document.title=`${index+1}/${slides.length} · ${s.title[lang]} · BilimAI`;$('#announce').textContent=tr('Слайд ','Слайд ')+(index+1)+'. '+s.title[lang];if(s.kind==='editor')updatePreview();if(s.kind==='regions'||s.kind==='imported'||s.kind==='team'||s.kind==='edu-overview'||s.kind==='teacher-research'||s.kind==='national-project'||s.kind==='ai-paradigms')$('#timing').textContent=tr('Дополнительный материал','Қосымша материал');$('#slide').classList.toggle('seminar-ornament',slides[0]?.base===22&&index>=2);$('#slide').classList.toggle('ornament-on-dark',['logic-demo','gravity-demo'].includes(s.kind));timerUpdate();fit();}
 function fit(){const w=$('.stage-wrap'),stage=$('#stage'),full=false;w.style.padding=full?'0':'';stage.style.width=full?'100%':'';stage.style.height=full?'100%':'';if(full){stage.style.transform='none';return;}const scale=Math.min((w.clientWidth-24)/1280,(w.clientHeight-24)/720);$('#stage').style.transform=`scale(${Math.max(.1,scale)})`}
 function goto(n){index=Math.max(0,Math.min(slides.length-1,n));if($('#dialog').open)$('#dialog').close();location.hash='slide-'+(index+1);render();}
@@ -629,4 +639,18 @@ $('#slide').className='slide champions-program-slide';
 $('#slide').innerHTML=`<header class="cp-header"><div><p class="cp-eyebrow">${tr('ОКТЯБРЬ — ДЕКАБРЬ 2026','ҚАЗАН — ЖЕЛТОҚСАН 2026')}</p><h1 id="slideTitle">ChatGPT Edu CHAMPIONS</h1><p class="cp-subtitle">${tr('Программа для школьных учителей','Мектеп мұғалімдеріне арналған бағдарлама')}</p></div><img src="assets/champions/image-2.png" alt="BilimAI" class="cp-logo"></header><div class="cp-layout"><div class="cp-main"><p class="cp-intro">${tr('Создайте ИИ-проект для решения общей школьной задачи и поделитесь опытом с другими учителями.','Мектептегі ортақ міндетті шешетін ЖИ жобасын жасап, тәжірибеңізді басқа мұғалімдермен бөлісіңіз.')}</p><ol class="cp-stages">${stages.map((s,i)=>`<li><div class="cp-month"><span>0${i+1}</span>${tr(s[0],s[1])}</div><div><h2>${tr(s[2],s[3])}</h2><p>${tr(s[4],s[5])}</p></div></li>`).join('')}</ol><div class="cp-examples"><strong>${tr('Примеры проектов','Жоба мысалдары')}</strong><p>${tr('Учебный сайт, 3D-игра для обучения, симуляция и другие авторские ИИ-проекты.','Оқу сайты, 3D оқу ойыны, симуляция және басқа авторлық ЖИ жобалар.')}</p></div><p class="cp-note">${tr('Точную дату обучения и срок сдачи проекта сообщат позже.','Нақты оқу күні мен жобаны тапсыру мерзімі кейін хабарланады.')}</p></div><aside class="cp-apply"><div class="cp-portraits" role="img" aria-label="${tr('Учителя — участники образовательного сообщества','Білім беру қауымдастығының мұғалімдері')}"><span></span><span></span><span></span></div><h2>${tr('Заполните анкету','Сауалнаманы толтырыңыз')}</h2><a class="cp-qr" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${tr('Открыть анкету CHAMPIONS','CHAMPIONS сауалнамасын ашу')}"><img src="assets/champions/program-qr.svg" alt="QR: forms.gle/4TuiMsA55yLBSLAv5"></a><a class="cp-form" href="${url}" target="_blank" rel="noopener noreferrer">${tr('Открыть анкету','Сауалнаманы ашу')} ↗</a><p class="cp-short-url">forms.gle/4TuiMsA55yLBSLAv5</p><div class="cp-deadline"><span>${tr('Дедлайн отбора участников','Қатысушыларды іріктеу дедлайны')}</span><strong>${tr('20 октября 2026','20 қазан 2026')}</strong></div><p class="cp-contact">${tr('Дополнительная информация','Қосымша ақпарат')}<a href="tel:+77083766903">+7 708 376 69 03</a></p></aside></div>`;
 }
 
+
+function addSubjectViewQR(s){
+const keys={'logic-demo':'logic','soz-game':'soz','ana-uni':'ana','history':'history','anatomy-demo':'anatomy','water-demo':'water','anion-demo':'anion','gravity-demo':'gravity'};
+const key=keys[s.kind];if(!key)return;
+const slide=$('#slide'),frame=slide.querySelector('iframe');if(!frame)return;
+const target=new URL(frame.getAttribute('src'),'https://asselmukanova-bilim-gpt-edu-lab.github.io/chatgpt-edu-seminar/part-2/');
+target.searchParams.delete('v');
+const qrKey=key+(['ana','anatomy'].includes(key)?'':(lang?'_kk':'_ru'));
+const stage=document.createElement('div');stage.className='subject-view-stage';
+while(slide.firstChild)stage.append(slide.firstChild);slide.append(stage);
+const rail=document.createElement('aside');rail.className='subject-view-rail';
+rail.innerHTML=`<a href="${esc(target.href)}" target="_blank" rel="noopener" class="subject-view-qr"><img src="assets/subject-qr/${qrKey}.svg" alt="${tr('QR-код этого задания','Осы тапсырманың QR-коды')}"><strong>${tr('Открыть на телефоне','Телефонда ашу')}</strong><span>${tr('Это задание · просмотр','Осы тапсырманы көру')} ↗</span></a>`;
+slide.append(rail);
+}
 </script></body></html>
