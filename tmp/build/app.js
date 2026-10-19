@@ -119,6 +119,7 @@ if(s.kind==='tarbie-overview')$('#slide').classList.add('ustaz-overview-slide');
 if(s.kind==='work-game')$('#slide').classList.add('work-game-slide');
 if(s.kind==='ustaz-overview')$('#slide').classList.add('ustaz-overview-slide');
 if(s.kind==='prompt-activity')$('#slide').classList.add('prompt-activity-slide');
+if(s.kind==='prompt-puzzle-builder'){$('#slide').className='slide prompt-puzzle-builder-slide';$('#slide').innerHTML='<h1 id="slideTitle" class="sr">'+esc(s.title[lang])+'</h1><iframe src="assets/Prompt_Builder_Teachers.html" title="'+esc(s.title[lang])+'" allow="fullscreen; clipboard-write" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>';}
 if(s.kind==='prompt-foundation')$('#slide').classList.add('prompt-foundation-slide');
 if(s.kind==='codex')$('#slide').classList.add('codex-info-slide');
 if(s.kind==='edu-limits')renderFileLimits();

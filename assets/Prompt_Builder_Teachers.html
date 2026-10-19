@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#5840e8">
+<title>Конструктор промптов для педагогов</title>
+<style>
+:root{color-scheme:light;--ink:#202039;--purple:#6146ed;--shadow:0 12px 38px #30245b0a}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font:16px/1.4 "Segoe UI",Arial,sans-serif;background:radial-gradient(ellipse at 1% 2%,#e7dcff 0,transparent 40%),radial-gradient(ellipse at 100% 90%,#d3f5ef 0,transparent 42%),#f6f5fc;min-height:100vh}
+button,input,select,textarea{font:inherit;touch-action:manipulation}
+button{cursor:pointer}
+[hidden]{display:none!important}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid #8064ff;outline-offset:3px}
+.app{max-width:1840px;margin:auto;padding:24px 30px}
+header{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:16px;min-width:0}
+.logo{display:grid;place-items:center;flex:0 0 54px;height:54px;border-radius:18px;background:linear-gradient(135deg,#8a51f8,#4b40df);color:white;box-shadow:0 8px 18px #6746ed30;transform:rotate(-5deg)}
+h1{margin:0;font-size:clamp(26px,2.25vw,40px);letter-spacing:-1.1px;line-height:1.15;font-weight:750}
+.header-actions{display:flex;gap:10px;flex-shrink:0}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;border-radius:13px;border:1px solid #d8d1f1;background:#ffffffd9;color:#4b3c87;padding:10px 17px;font-size:15px;font-weight:650;transition:background .15s,box-shadow .15s,transform .15s}
+.button svg{width:19px;height:19px;flex:0 0 19px}
+.button:hover{background:#ece7ff;box-shadow:0 4px 12px #6046bf12}
+.button:active{transform:translateY(1px)}
+.workspace{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px;align-items:stretch}
+form{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:0}
+.card{--color:#7651d5;--wash:#f3edff;min-width:0;margin:0;border:1px solid color-mix(in srgb,var(--color) 19%,white);background:linear-gradient(130deg,var(--wash),#ffffff 92%);border-radius:19px;padding:12px 17px;box-shadow:var(--shadow)}
+.card:focus-within{box-shadow:0 0 0 2px color-mix(in srgb,var(--color) 30%,transparent),var(--shadow)}
+.card h2{display:flex;align-items:center;gap:10px;font-size:20px;letter-spacing:-.35px;line-height:1.25;font-weight:750;color:var(--color);margin:0 0 11px}
+.card h2:before{content:"";width:9px;height:21px;border-radius:5px;background:var(--color);flex:0 0 9px}
+.role{--color:#7942c9;--wash:#f2e9ff}
+.task{--color:#ca4a75;--wash:#ffeaf1}
+.context{--color:#2d63c6;--wash:#eaf2ff;grid-column:1/-1}
+.audience{--color:#078273;--wash:#e2f8f1}
+.format{--color:#b67309;--wash:#fff4d9}
+.style{--color:#b84b22;--wash:#ffede4}
+.limits{--color:#5153c8;--wash:#eeedff}
+input[type=text],select,textarea{width:100%;min-width:0;border:1px solid #ddddea;background:#fff;color:#26233e;border-radius:10px;min-height:42px;padding:9px 11px;font-size:16px;line-height:1.35}
+input[type=text]:hover,select:hover,textarea:hover{border-color:var(--color,#917de4)}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%236c647d' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:16px;padding-right:31px;cursor:pointer}
+textarea{resize:vertical;display:block;min-height:62px}
+label.field{display:block;min-width:0;font-size:14px;font-weight:650;color:#4e4a66}
+label.field>span{display:block;margin-bottom:5px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+.wide{grid-column:1/-1}
+.stack{display:grid;gap:9px}
+.custom{margin-top:9px}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:9px}
+.check{display:flex;align-items:center;gap:7px;border:1px solid #ddddef;border-radius:9px;background:#fff;min-height:37px;padding:7px 8px;font-size:13px;font-weight:600;cursor:pointer}
+.check:has(input:checked){background:#e3dfff;border-color:#a193e4;color:#4234a5}
+input[type=checkbox]{width:16px;height:16px;flex:0 0 16px;accent-color:#6150d8;margin:0}
+.preview-panel{min-width:0;display:flex;flex-direction:column;border:1px solid #dcd6ef;border-radius:24px;background:#fff;box-shadow:0 16px 48px #3e2c8210;overflow:hidden;position:relative}
+.preview-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:21px 24px 18px;background:linear-gradient(115deg,#5e43df,#8e50dc);color:white}
+.preview-head h2{margin:0;font-size:25px;letter-spacing:-.6px}
+.preview-head svg{width:28px;height:28px;color:#e6dcff}
+.preview{flex:1;min-height:0;height:0;overflow:auto;padding:20px 24px 10px;scrollbar-width:thin;scrollbar-color:#c7bde8 transparent;overscroll-behavior:contain}
+.block{margin:0 0 17px;border-left:3px solid var(--color);padding-left:14px;break-inside:avoid}
+.block h3{font-size:17px;line-height:1.35;color:var(--color);margin:0 0 5px;font-weight:750}
+.block p{font-size:16px;line-height:1.6;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.actions{display:grid;grid-template-columns:1fr auto;gap:10px;padding:18px 22px;border-top:1px solid #eeeaf6;background:#fdfcff}
+.copy{background:linear-gradient(110deg,#6242e8,#7852ec);color:#fff;border-color:transparent;min-height:50px;font-size:17px;box-shadow:0 5px 16px #6343e326}
+.copy:hover{background:#5134ce;box-shadow:0 6px 20px #6343e338}
+.reset{color:#5a536c}
+.toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,14px);opacity:0;pointer-events:none;background:#12594d;color:white;border-radius:14px;padding:13px 22px;font-size:16px;font-weight:600;box-shadow:0 10px 35px #13352c30;max-width:calc(100vw - 32px);z-index:20;text-align:center;transition:.18s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.copy-dialog{width:min(720px,calc(100% - 30px));border:1px solid #d7d0ed;border-radius:22px;padding:24px;color:var(--ink);box-shadow:0 25px 90px #20183630}
+.copy-dialog::backdrop{background:#20183666}
+.copy-dialog h2{margin:0 0 15px;font-size:24px}
+.copy-dialog textarea{height:50vh;font-size:16px;line-height:1.6;margin-bottom:14px}
+noscript{display:block;padding:20px;font-size:18px;text-align:center;background:#fff2d4}
+@media(min-width:1500px){.app{padding:30px 38px}.workspace{gap:26px}form{gap:15px}.card{padding:18px 21px}.card h2{font-size:23px;margin-bottom:13px}input[type=text],select,textarea{font-size:18px;min-height:46px}label.field{font-size:16px}.check{font-size:15px;min-height:42px}.preview-head h2{font-size:29px}.block h3{font-size:20px}.block p{font-size:19px}.preview{padding:24px 28px}.block{margin-bottom:21px}.button{font-size:17px}}
+@media(min-width:1101px) and (max-height:850px){.app{padding:16px 24px}header{margin-bottom:15px}.logo{flex-basis:46px;height:46px;border-radius:15px}form{gap:9px}.card{padding:11px 14px 12px;border-radius:16px}.card h2{font-size:18px;margin-bottom:8px}input[type=text],select,textarea{min-height:37px;padding-top:7px;padding-bottom:7px;font-size:15px}label.field{font-size:13px}.grid{gap:8px 10px}.check{font-size:12px;min-height:33px;padding:6px}.checks{gap:6px;margin-bottom:8px}.stack{gap:8px}.preview-head{padding:17px 20px}.preview{padding:17px 20px 6px}.block h3{font-size:16px}.block p{font-size:15px}.actions{padding:15px 18px}.button{font-size:14px}.copy{font-size:16px}}
+@media(max-width:1100px){.app{padding:22px}.workspace{grid-template-columns:1fr}h1{font-size:29px}.header-actions .fullscreen{display:none}.preview{height:580px;flex:none}.preview-head{padding:20px 23px}.card{padding:17px 20px}.preview-panel{min-height:0}}
+@media(max-width:650px){.app{padding:17px 12px}header{flex-wrap:wrap;gap:16px;margin-bottom:17px}.brand{gap:11px}.logo{flex-basis:43px;height:43px;border-radius:14px}h1{font-size:27px;letter-spacing:-.8px}.header-actions{width:100%}.download{width:100%;font-size:15px}form{grid-template-columns:1fr;gap:11px}.card{padding:16px;border-radius:17px}.context{grid-column:auto}.card h2{font-size:21px}.grid{grid-template-columns:1fr 1fr;gap:12px}.context .grid{grid-template-columns:1fr}.wide{grid-column:1/-1}label.field{font-size:15px}input[type=text],select,textarea{font-size:16px;min-height:44px}.checks{gap:8px}.check{font-size:14px;min-height:43px}.preview-head{padding:19px}.preview-head h2{font-size:24px}.preview{height:560px;padding:20px 18px}.block p{font-size:16px}.actions{grid-template-columns:1fr;padding:16px;gap:9px}.button{min-height:47px}.copy{font-size:17px}.workspace{gap:17px}}
+@media(min-width:1101px){.workspace{height:calc(100dvh - 124px)}form{height:100%;overflow:auto;align-content:start;scrollbar-width:thin;scrollbar-color:#c7bde8 transparent}.preview-panel{height:100%}}
+@media(min-width:1500px){.workspace{height:calc(100dvh - 136px)}}
+@media(min-width:1101px) and (max-height:850px){.workspace{height:calc(100dvh - 93px)}.card{padding:10px 14px}.card h2{margin-bottom:6px}.grid{gap:6px 10px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{body{background:white}.app{padding:0}header,form,.actions,.toast,.preview-head{display:none!important}.workspace{display:block}.preview-panel{border:0;box-shadow:none}.preview{height:auto;overflow:visible;padding:0}.block{margin-bottom:15px}.block p{font-size:12pt}.block h3{font-size:13pt}}
+
+.mode-switch{display:flex;align-items:center;gap:4px;padding:5px;background:#ffffffc9;border:1px solid #dfd7f2;border-radius:16px;flex-shrink:0}
+.mode-button{border:0;border-radius:11px;padding:10px 15px;min-height:40px;background:transparent;color:#655a7d;font-size:15px;font-weight:650;white-space:nowrap}
+.mode-button[aria-pressed="true"]{color:#fff;background:#6949e5;box-shadow:0 3px 10px #6949e528}
+.mode-button:hover:not([aria-pressed="true"]){background:#f0eaff}
+.puzzle-stage{height:calc(100dvh - 124px);min-height:0;position:relative;display:grid;place-items:center}
+.puzzle-toolbar{position:absolute;right:0;top:0;z-index:2}
+.memory-button[aria-pressed="true"]{background:#6545d9;color:white;border-color:#6545d9}
+.puzzle{position:relative;width:min(100%,700px,calc(100dvh - 152px));aspect-ratio:680/690;isolation:isolate}
+.puzzle-art{display:block;width:100%;height:100%;overflow:visible}
+.puzzle-shape{fill:var(--piece-fill);stroke:var(--piece-stroke);stroke-width:1.5;transition:filter .16s,fill .16s;cursor:pointer}
+.puzzle-shape:hover{filter:brightness(.97) saturate(1.2)}
+.puzzle-piece{position:absolute;transform:translate(-50%,-50%);width:24%;min-width:78px;min-height:62px;height:15.5%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;border:0;background:transparent;color:var(--piece-ink);border-radius:20px;padding:4px;font-weight:750;font-size:clamp(12px,1.65vw,23px);line-height:1.2;z-index:2}
+.puzzle-piece .piece-icon{display:block;font-size:clamp(25px,3.4vw,48px);line-height:1.1;filter:drop-shadow(0 3px 3px #2820440b)}
+.puzzle-piece .piece-name{display:block;white-space:nowrap}
+.puzzle-piece:hover{background:#ffffff38}
+.puzzle-piece:active{transform:translate(-50%,-50%) scale(.97)}
+.puzzle-core{position:absolute;left:50%;top:49.27536%;transform:translate(-50%,-50%);width:25%;aspect-ratio:1;border-radius:50%;border:5px solid white;background:linear-gradient(145deg,#7453ec,#4930b4);color:white;box-shadow:0 10px 35px #6549c630;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;z-index:3;font-size:clamp(14px,2vw,28px);font-weight:750;line-height:1.2;padding:5px}
+.puzzle-core span:first-child{font-size:clamp(23px,3.1vw,43px)}
+.puzzle-core:hover{background:linear-gradient(145deg,#8562f4,#5636cf)}
+.puzzle-piece.revealed .piece-name{animation:piece-reveal .2s ease-out}
+@keyframes piece-reveal{from{transform:translateY(5px);opacity:.4}to{transform:translateY(0);opacity:1}}
+@media(min-width:1500px){.puzzle-stage{height:calc(100dvh - 136px)}.puzzle{width:min(100%,800px,calc(100dvh - 164px))}.mode-button{font-size:17px}}
+@media(min-width:1101px) and (max-height:850px){.puzzle-stage{height:calc(100dvh - 93px)}.puzzle{width:min(100%,680px,calc(100dvh - 120px))}.mode-button{font-size:14px;padding:8px 12px;min-height:36px}.mode-switch{padding:4px}.puzzle-piece{font-size:21px}.puzzle-piece .piece-icon{font-size:42px}}
+@media(max-width:1250px) and (min-width:1101px){h1{font-size:27px}.brand{gap:10px}.header-actions{gap:7px}.header-actions .button{padding:10px}.mode-button{padding:8px 10px}}
+@media(max-width:1100px){header{flex-wrap:wrap}.mode-switch{order:3}.puzzle-stage{height:auto;min-height:600px;padding-top:55px}.puzzle-toolbar{top:0}.puzzle{width:min(100%,670px)}.puzzle-piece{font-size:21px}.puzzle-piece .piece-icon{font-size:42px}.puzzle-core{font-size:25px}.puzzle-core span:first-child{font-size:38px}}
+@media(max-width:650px){.mode-switch{width:100%;justify-content:center}.mode-button{flex:1;font-size:16px;min-height:42px}.puzzle-stage{min-height:0;padding-top:0;display:flex;flex-direction:column;gap:14px}.puzzle-toolbar{position:static;align-self:center}.puzzle{width:100%;max-width:520px}.puzzle-piece{font-size:clamp(12px,3.1vw,19px);gap:5px;min-height:44px}.puzzle-piece .piece-icon{font-size:clamp(25px,7vw,40px)}.puzzle-core{font-size:clamp(14px,4vw,22px);border-width:3px}.puzzle-core span:first-child{font-size:clamp(23px,6vw,34px)}}
+@media(min-width:1500px){.mode-switch{padding:4px}}
+@media(max-width:360px){#piece-0{width:21%;min-width:64px}}
+@media print{.mode-switch,.puzzle-stage{display:none!important}.workspace[hidden]{display:block!important}}
+
+
+body{background:radial-gradient(ellipse at 0% 0%,#e7eaf4,transparent 48%),radial-gradient(ellipse at 100% 100%,#e5eef0,transparent 48%),#f7f8fb}
+.logo{transform:none;border-radius:14px;background:#5b4ac5;box-shadow:0 5px 15px #5042931c}
+.puzzle{aspect-ratio:1;filter:drop-shadow(0 14px 24px #24334e12)}
+.puzzle-art{overflow:visible}
+.puzzle-shape{fill:var(--piece-fill);stroke:#fff;stroke-width:3;stroke-linejoin:round;transition:filter .15s;cursor:pointer}
+.puzzle-shape:hover,.puzzle-shape.highlighted{filter:brightness(1.055) saturate(1.18)}
+.puzzle-piece{height:9%;min-height:44px;min-width:76px;gap:0;font-size:clamp(12px,1.65vw,23px);color:var(--piece-ink);font-weight:650;padding:3px;border-radius:8px}
+.puzzle-piece:hover{background:transparent}
+.puzzle-piece .piece-name{white-space:nowrap}
+@media(min-width:1101px) and (max-height:850px){.puzzle-piece{font-size:20px}}
+@media(max-width:1100px){.puzzle-piece{font-size:21px}}
+@media(max-width:650px){.puzzle-piece{font-size:clamp(12px,3.1vw,19px);height:12%;min-height:44px;min-width:76px}}
+@media(max-width:360px){#piece-0{width:24%;min-width:76px}.puzzle-piece{font-size:12px}}
+
+
+.role{--tone:#7c3aed;--on-tone:#fff;--color:#6d28d9;--wash:#f1e8ff}
+.task{--tone:#e11d70;--on-tone:#fff;--color:#be185d;--wash:#ffe7f0}
+.context{--tone:#1267d6;--on-tone:#fff;--color:#1663c4;--wash:#e3efff}
+.audience{--tone:#009f83;--on-tone:#00251e;--color:#006f5c;--wash:#ddf8ee}
+.format{--tone:#f4b400;--on-tone:#442d00;--color:#896000;--wash:#fff4cf}
+.style{--tone:#f87824;--on-tone:#482000;--color:#a34608;--wash:#ffeadb}
+.limits{--tone:#4f46e5;--on-tone:#fff;--color:#4338ca;--wash:#eae8ff}
+.workspace{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+.orbital-builder{min-width:0;min-height:0;display:grid;place-items:center}
+.orbit{position:relative;width:min(100%,760px,calc(100dvh - 142px));aspect-ratio:1}
+.orbit-navigation{position:absolute;inset:0}
+.orbit-navigation:before{content:'';position:absolute;inset:11%;border:1px solid #d8dced;border-radius:50%;background:radial-gradient(circle,#fff 48%,#f0f3fa66 70%)}
+.orbit-hub{display:none}
+.orbit-button{position:absolute;transform:translate(-50%,-50%);width:24%;min-height:53px;border:2px solid transparent;border-radius:15px;padding:9px 6px;background:var(--tone);color:var(--on-tone);font-size:clamp(14px,1.23vw,19px);font-weight:700;line-height:1.25;box-shadow:0 6px 14px color-mix(in srgb,var(--tone) 18%,transparent);z-index:2;transition:box-shadow .15s,filter .15s}
+.orbit-button:hover{filter:brightness(1.06)}
+.orbit-button[aria-pressed="true"]{outline:3px solid var(--tone);outline-offset:5px;box-shadow:0 8px 24px color-mix(in srgb,var(--tone) 27%,transparent)}
+.orbit-button:focus-visible{outline:3px solid #202039;outline-offset:5px}
+form#builder{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50%;height:auto;max-height:52%;display:block;overflow:auto;padding:0;border-radius:18px;box-shadow:0 12px 35px #24334e14;scrollbar-width:thin}
+form#builder .card{padding:0 16px 17px;min-height:170px;border:1px solid color-mix(in srgb,var(--tone) 38%,white);border-radius:18px;background:var(--wash);box-shadow:none;overflow:hidden}
+form#builder .card:focus-within{box-shadow:none}
+form#builder .card h2{padding:14px 16px;margin:0 -16px 16px;background:var(--tone);color:var(--on-tone);font-size:21px;line-height:1.3;letter-spacing:0}
+form#builder .card h2:before{display:none}
+form#builder label.field{font-size:14px}
+form#builder input[type=text],form#builder select,form#builder textarea{font-size:15px;min-height:40px;font-weight:400;padding-top:8px;padding-bottom:8px}
+form#builder .grid{gap:10px}
+form#builder .checks{grid-template-columns:1fr 1fr;gap:7px}
+form#builder .check{font-size:12px;min-height:39px}
+form#builder .check:has(input:checked){background:color-mix(in srgb,var(--tone) 15%,white);border-color:var(--tone);color:var(--color)}
+form#builder input[type=checkbox]{accent-color:var(--tone)}
+.block{border-left-color:var(--tone);border-left-width:4px;padding:9px 12px;border-radius:0 10px 10px 0}
+.block.active-block{background:var(--wash)}
+.block h3{color:var(--color)}
+.preview-head{background:#4f46e5}
+@media(min-width:1500px){.orbit{width:min(100%,800px,calc(100dvh - 150px))}form#builder .card h2{font-size:24px}form#builder label.field{font-size:16px}form#builder input[type=text],form#builder select,form#builder textarea{font-size:17px;min-height:44px}form#builder .check{font-size:13px}.orbit-button{min-height:60px;font-size:20px}}
+@media(min-width:1101px) and (max-height:850px){.orbit{width:min(100%,710px,calc(100dvh - 106px))}.orbit-button{font-size:15px;min-height:49px}form#builder .card h2{font-size:19px;padding:11px 15px;margin-bottom:12px}form#builder .card{padding-bottom:14px}form#builder input[type=text],form#builder select,form#builder textarea{font-size:14px;min-height:36px;padding-top:6px;padding-bottom:6px}form#builder label.field{font-size:13px}.block{padding:7px 10px}}
+@media(max-width:1100px){.workspace{grid-template-columns:1fr;height:auto}.orbit{width:min(100%,720px)}.orbital-builder{min-height:0}.orbit-button{font-size:18px}.preview-panel{height:auto}form#builder{max-height:54%}}
+@media(max-width:650px){.orbit{width:100%;aspect-ratio:auto;display:flex;flex-direction:column;gap:16px}.orbit-navigation{position:relative;inset:auto;width:100%;aspect-ratio:1}.orbit-navigation:before{inset:13%}.orbit-hub{display:grid;place-items:center;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:45%;height:20%;color:#343651;font-size:18px;font-weight:700;text-align:center}.orbit-button{width:26%;min-height:44px;font-size:clamp(11px,3vw,17px);border-radius:10px;padding:8px 2px;letter-spacing:-.2px}.orbit-button[aria-pressed="true"]{outline-offset:3px;outline-width:2px}form#builder{position:static;transform:none;width:100%;max-height:none;overflow:visible;box-shadow:0 6px 24px #24334e10}form#builder .card{min-height:170px;padding:0 16px 18px}form#builder .card h2{font-size:22px}form#builder label.field{font-size:15px}form#builder input[type=text],form#builder select,form#builder textarea{font-size:16px;min-height:44px}form#builder .check{font-size:14px}form#builder .context .grid{grid-template-columns:1fr}.workspace{gap:20px}.preview-panel{margin-top:0}}
+@media print{.orbital-builder{display:none!important}.workspace{display:block!important;height:auto!important}.preview-panel{height:auto!important}.block.active-block{background:white}}
+
+</style>
+</head>
+<body>
+<noscript>Включите JavaScript для работы конструктора.</noscript>
+<div class="app">
+<header>
+<div class="brand"><button type="button" class="button" id="back" hidden>Назад</button><h1>Конструктор промптов</h1></div>
+<div class="header-actions">
+<button type="button" class="button fullscreen" id="fullscreen"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>На весь экран</span></button>
+</div>
+</header>
+<section class="puzzle-stage" id="puzzle-view" aria-label="Пазл промпта">
+<div class="puzzle" id="puzzle">
+<svg class="puzzle-art" id="puzzle-art" viewBox="160 20 680 690" aria-hidden="true"></svg>
+
+</div>
+</section>
+<main class="workspace" id="builder-view" hidden>
+<section class="orbital-builder" aria-label="Элементы промпта по кругу">
+<div class="orbit">
+<nav class="orbit-navigation" id="orbit-navigation" aria-label="Выбор элемента промпта"></nav>
+<form id="builder" autocomplete="off" aria-label="Конструктор промпта">
+<section class="card role" aria-labelledby="role-title">
+<h2 id="role-title">Роль</h2><label class="sr-only" for="role">Роль</label>
+<select id="role" data-custom="role-custom"><option>Опытный учитель-методист</option><option>Строгий экзаменатор</option><option>Заботливый репетитор</option><option>Автор обучающих квестов и игр</option><option>Детский писатель и автор учебников</option><option value="custom">Свой вариант</option></select>
+<div class="custom" id="role-custom-wrap" hidden><label class="field" for="role-custom"><span>Своя роль</span><input type="text" id="role-custom" maxlength="500" disabled></label></div>
+</section>
+<section class="card task" aria-labelledby="task-title">
+<h2 id="task-title">Задача</h2><label class="sr-only" for="task">Задача</label>
+<select id="task" data-custom="task-custom"><option value="test">Составить тест с ответами</option><option value="lesson">Разработать интерактивный урок</option><option value="homework">Создать ДЗ: уровни A, B, C</option><option value="analogy">Объяснить тему через аналогию</option><option value="games">Создать 3 игры или квеста</option><option value="text">Написать художественный текст</option><option value="standards">План-конспект по ФГОС / ГОСО</option><option value="custom">Свой вариант</option></select>
+<div class="custom" id="task-custom-wrap" hidden><label class="field" for="task-custom"><span>Своя задача</span><textarea id="task-custom" rows="2" maxlength="2000" disabled></textarea></label></div>
+</section>
+<section class="card context" aria-labelledby="context-title">
+<h2 id="context-title">Контекст</h2>
+<div class="grid">
+<div><label class="field" for="subject"><span>Предмет</span><select id="subject" data-custom="subject-custom"><option>Математика</option><option>Физика</option><option>Русский язык</option><option>Литература</option><option>Казахский язык</option><option>Казахская литература</option><option>История</option><option>Биология</option><option>Химия</option><option>Иностранный язык</option><option>Начальные классы</option><option>География</option><option>Информатика</option><option>Естествознание</option><option>Обществознание</option><option>Музыка</option><option>Изобразительное искусство</option><option>Технология</option><option>Физическая культура</option><option value="custom">Свой вариант</option></select></label>
+<div class="custom" id="subject-custom-wrap" hidden><label class="field" for="subject-custom"><span>Свой предмет</span><input type="text" id="subject-custom" maxlength="300" disabled></label></div>
+</div>
+<label class="field" for="topic"><span>Тема</span><input type="text" id="topic" maxlength="600"></label>
+<label class="field" for="goal"><span>Цель обучения</span><input type="text" id="goal" maxlength="2000"></label>
+<label class="field" for="materials"><span>Материалы</span><input type="text" id="materials" maxlength="12000"></label>
+</div>
+</section>
+<section class="card audience" aria-labelledby="audience-title">
+<h2 id="audience-title">Аудитория</h2>
+<div class="grid">
+<label class="field" for="grade"><span>Класс</span><select id="grade"><option value="1">1 класс</option><option value="2">2 класс</option><option value="3">3 класс</option><option value="4">4 класс</option><option value="5" selected>5 класс</option><option value="6">6 класс</option><option value="7">7 класс</option><option value="8">8 класс</option><option value="9">9 класс</option><option value="10">10 класс</option><option value="11">11 класс</option><option value="custom">Другая</option></select></label>
+<label class="field" for="age"><span>Возраст</span><input type="text" id="age" maxlength="100"></label>
+<label class="field wide" for="audience"><span>Особенности аудитории</span><input type="text" id="audience" maxlength="1500"></label>
+</div>
+</section>
+<section class="card format" aria-labelledby="format-title">
+<h2 id="format-title">Формат</h2><label class="sr-only" for="format">Формат</label>
+<select id="format" data-custom="format-custom"><option value="table">Таблица из 3 колонок</option><option value="list">Пошаговый список</option><option value="worksheet">Карточка для печати</option><option value="summary">Краткий конспект</option><option value="story">Заголовок, текст и примеры</option><option value="custom">Свой вариант</option></select>
+<div class="custom" id="format-custom-wrap" hidden><label class="field" for="format-custom"><span>Свой формат</span><textarea id="format-custom" rows="2" maxlength="1500" disabled></textarea></label></div>
+</section>
+<section class="card style" aria-labelledby="style-title">
+<h2 id="style-title">Стиль</h2>
+<div class="stack">
+<label class="field" for="language"><span>Язык</span><select id="language" data-custom="language-custom"><option>Русский</option><option>Қазақ тілі</option><option>English</option><option value="custom">Свой вариант</option></select></label>
+<div class="custom" id="language-custom-wrap" hidden><label class="field" for="language-custom"><span>Свой язык</span><input type="text" id="language-custom" maxlength="200" disabled></label></div>
+<label class="field" for="tone"><span>Манера изложения</span><select id="tone" data-custom="tone-custom"><option value="clear">Просто и понятно</option><option value="friendly">Доброжелательно</option><option value="story">Живо и образно</option><option value="academic">Научно и точно</option><option value="formal">Официально и кратко</option><option value="custom">Свой вариант</option></select></label>
+<div class="custom" id="tone-custom-wrap" hidden><label class="field" for="tone-custom"><span>Свой стиль</span><input type="text" id="tone-custom" maxlength="1000" disabled></label></div>
+</div>
+</section>
+<section class="card limits" aria-labelledby="limits-title">
+<h2 id="limits-title">Ограничения</h2>
+<div class="checks">
+<label class="check"><input type="checkbox" name="rule" value="simple">Простой язык</label>
+<label class="check"><input type="checkbox" name="rule" value="time">10–15 минут</label>
+<label class="check"><input type="checkbox" name="rule" value="advanced">Высокая сложность</label>
+<label class="check"><input type="checkbox" name="rule" value="life">Примеры из жизни</label>
+</div>
+<label class="field" for="limits"><span>Объём и требования</span><input type="text" id="limits" maxlength="3000"></label>
+</section>
+</form>
+</div>
+</section>
+<section class="preview-panel" aria-labelledby="preview-title">
+<div class="preview-head"><h2 id="preview-title">Готовый промпт</h2><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="m19 3 2.7 7.3L29 13l-7.3 2.7L19 23l-2.7-7.3L9 13l7.3-2.7L19 3ZM7 19l1.6 4.4L13 25l-4.4 1.6L7 31l-1.6-4.4L1 25l4.4-1.6L7 19Z" fill="currentColor"/></svg></div>
+<div class="preview" id="preview" tabindex="0" aria-label="Готовый промпт"></div>
+<textarea class="sr-only" id="prompt" readonly tabindex="-1" aria-label="Текст промпта"></textarea>
+<div class="actions">
+<button type="button" class="button copy" id="copy"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M15 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" stroke="currentColor" stroke-width="1.8"/></svg>Скопировать промпт</button>
+<button type="button" class="button reset" id="reset"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 10a9 9 0 1 1 1 7M3 4v6h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Сбросить</button>
+</div>
+</section>
+</main>
+</div>
+<dialog class="copy-dialog" id="copy-dialog"><h2>Копирование</h2><label for="manual-copy" class="sr-only">Текст для копирования</label><textarea id="manual-copy" readonly></textarea><button type="button" class="button" id="close-dialog">Закрыть</button></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+<script>
+'use strict';
+(() => {
+  const $ = id => document.getElementById(id);
+  const form = $('builder');
+  const preview = $('preview');
+  const output = $('prompt');
+  let toastTimer;
+  const tasks = {
+    test: 'Составь тест с ключами ответов и критериями оценивания. Ответы и пояснения вынеси в отдельный блок для учителя.',
+    lesson: 'Разработай сценарий интерактивного урока: этапы, действия учителя и учеников, время, материалы и проверка понимания.',
+    homework: 'Создай дифференцированное домашнее задание: уровень A — базовый, B — применение знаний, C — рассуждение и перенос знаний. Добавь критерии выполнения; ответы вынеси отдельно для учителя.',
+    analogy: 'Объясни тему через понятную аналогию. Покажи соответствия, обозначь границы аналогии и добавь вопросы для проверки понимания.',
+    games: 'Создай 3 сюжетные игры или квеста. Для каждого укажи учебную цель, сюжет, правила, материалы, время и способ проверки результата.',
+    text: 'Напиши художественный текст, который обогащает словарный запас и помогает освоить указанную тему.',
+    standards: 'Подготовь план-конспект урока. Если исходных данных недостаточно, сначала уточни страну, применимый стандарт (ФГОС или ГОСО), его редакцию, точную цель и требуемую форму плана. Не смешивай стандарты и не заявляй соответствие без предоставленных требований.'
+  };
+  const formats = {
+    table: 'Наглядная таблица ровно из 3 колонок с заголовками по содержанию задачи. Ответы для учителя, если они нужны, размести отдельно.',
+    list: 'Маркированный список с последовательными шагами и выделенными названиями действий.',
+    worksheet: 'Карточка для печати: заголовок, инструкция, задания и место для ответов. Ключи и комментарии для учителя размести отдельно от ученической карточки.',
+    summary: 'Краткий конспект с подзаголовками, выделением главного и необходимыми примерами.',
+    story: 'Заголовок, 2–3 абзаца и список примеров из текста по изучаемой теме.'
+  };
+  const tones = {clear:'Просто и понятно, с доступными формулировками.',friendly:'Доброжелательно и поддерживающе.',story:'Живо, образно и увлекательно.',academic:'Научно и точно; необходимые понятия объясняй.',formal:'Официально, кратко и по существу.'};
+  const rules = {
+    simple:'Избегай сложных научных определений; необходимые термины объясняй доступно, сохраняя точность.',
+    time:'Выполнение задания — 10–15 минут. Для полного урока выдели фрагмент такой длительности; для нескольких игр укажи время каждой.',
+    advanced:'Высокий уровень сложности: нестандартные задачи и рассуждение для олимпиадной подготовки с учётом возраста.',
+    life:'Используй примеры из реальной жизни, понятные указанной аудитории.'
+  };
+  function value(id) { return $(id).value.trim(); }
+  function chosen(id) { const field=$(id); return field.value==='custom' ? value(field.dataset.custom) : field.options[field.selectedIndex].text; }
+  function syncFields() {
+    form.querySelectorAll('select[data-custom]').forEach(select => {
+      const active=select.value==='custom';
+      $(select.dataset.custom+'-wrap').hidden=!active;
+      $(select.dataset.custom).disabled=!active;
+    });
+  }
+  function buildBlocks() {
+    const context=[];
+    const subject=chosen('subject');
+    if(subject)context.push('Предмет: '+subject+'.');
+    if(value('topic'))context.push('Тема: '+value('topic'));
+    if(value('goal'))context.push('Цель обучения: '+value('goal'));
+    if(value('materials'))context.push('Предоставленные материалы:\n'+value('materials'));
+    const audience=[];
+    if(value('grade')!=='custom')audience.push('Ученики '+value('grade')+' класса.');
+    if(value('age'))audience.push('Возраст: '+value('age'));
+    if(value('audience'))audience.push(value('audience'));
+    const style=[];
+    const language=chosen('language');
+    if(language)style.push('Язык ответа: '+language+'.');
+    const tone=value('tone')==='custom'?value('tone-custom'):tones[value('tone')];
+    if(tone)style.push(tone);
+    const limits=[];
+    form.querySelectorAll('input[name="rule"]:checked').forEach(check=>limits.push(rules[check.value]));
+    if(value('limits'))limits.push(value('limits'));
+    limits.push('Опирайся на учебную программу и предоставленные материалы. Не выдумывай коды целей обучения, факты и источники. Если нужные материалы или требования не предоставлены, запроси их.');
+    const role=chosen('role');
+    return [
+      {name:'Роль',className:'role',text:role?'Ты — '+role+'.':''},
+      {name:'Задача',className:'task',text:value('task')==='custom'?value('task-custom'):tasks[value('task')]},
+      {name:'Контекст',className:'context',text:context.join('\n')},
+      {name:'Аудитория',className:'audience',text:audience.join('\n')},
+      {name:'Формат',className:'format',text:value('format')==='custom'?value('format-custom'):formats[value('format')]},
+      {name:'Стиль',className:'style',text:style.join('\n')},
+      {name:'Ограничения',className:'limits',text:limits.join('\n')}
+    ];
+  }
+  function render() {
+    syncFields();
+    const blocks=buildBlocks();
+    const scroll=preview.scrollTop;
+    const fragment=document.createDocumentFragment();
+    blocks.forEach((block,index)=>{
+      const section=document.createElement('section');section.className='block '+block.className+(index===activeStep?' active-block':'');
+      section.dataset.step=String(index);
+      const heading=document.createElement('h3');heading.textContent=block.name;
+      const paragraph=document.createElement('p');paragraph.textContent=block.text;
+      section.append(heading,paragraph);fragment.append(section);
+    });
+    preview.replaceChildren(fragment);preview.scrollTop=scroll;
+    output.value=blocks.map(block=>'['+block.name.toLocaleUpperCase('ru-RU')+']\n'+block.text).join('\n\n');
+  }
+  function notify(text) {
+    clearTimeout(toastTimer);$('toast').textContent=text;$('toast').classList.add('show');
+    toastTimer=setTimeout(()=>$('toast').classList.remove('show'),3000);
+  }
+  async function copy() {
+    render();let done=false;
+    try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(output.value);done=true;}}catch(error){done=false;}
+    if(!done){
+      const active=document.activeElement;
+      output.focus({preventScroll:true});output.select();output.setSelectionRange(0,output.value.length);
+      try{done=document.execCommand('copy');}catch(error){done=false;}
+      if(active&&typeof active.focus==='function')active.focus({preventScroll:true});
+    }
+    if(done)notify('Скопировано!');
+    else{$('manual-copy').value=output.value;$('copy-dialog').showModal();$('manual-copy').select();notify('Ctrl+C / ⌘C · Копировать');}
+  }
+  function reset() {
+    form.reset();
+    form.querySelectorAll('input[type="text"],textarea').forEach(field=>field.value='');
+    form.querySelectorAll('input[type="checkbox"]').forEach(field=>field.checked=false);
+    const defaults={role:'Опытный учитель-методист',subject:'Математика',task:'test',grade:'5',format:'table',language:'Русский',tone:'clear'};
+    Object.entries(defaults).forEach(([id,defaultValue])=>$(id).value=defaultValue);
+    activateElement(0,false);render();preview.scrollTop=0;notify('Форма сброшена');
+  }
+  async function fullscreen(){
+    try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}
+    catch(error){notify('Полный экран: F11');}
+  }
+  form.addEventListener('submit',event=>event.preventDefault());
+  form.addEventListener('input',render);form.addEventListener('change',render);
+  $('copy').addEventListener('click',copy);$('reset').addEventListener('click',reset);
+  $('close-dialog').addEventListener('click',()=>$('copy-dialog').close());
+  $('fullscreen').addEventListener('click',fullscreen);
+  if(!document.fullscreenEnabled)$('fullscreen').hidden=true;
+  document.addEventListener('fullscreenchange',()=>{$('fullscreen').querySelector('span').textContent=document.fullscreenElement?'Выйти из полного экрана':'На весь экран';});
+
+  const puzzleElements=[
+    {name:'Роль',field:'role',className:'role',fill:'#7c3aed',ink:'#ffffff'},
+    {name:'Задача',field:'task',className:'task',fill:'#e11d70',ink:'#ffffff'},
+    {name:'Контекст',field:'topic',className:'context',fill:'#1267d6',ink:'#ffffff'},
+    {name:'Аудитория',field:'grade',className:'audience',fill:'#009f83',ink:'#00251e'},
+    {name:'Формат',field:'format',className:'format',fill:'#f4b400',ink:'#442d00'},
+    {name:'Стиль',field:'tone',className:'style',fill:'#f87824',ink:'#482000'},
+    {name:'Ограничения',field:'limits',className:'limits',fill:'#4f46e5',ink:'#ffffff'}
+  ];
+  let activeStep=0;
+  function setView(view,focusField){
+    const puzzleActive=view==='puzzle';
+    document.documentElement.dataset.view=view;
+    $('puzzle-view').hidden=!puzzleActive;
+    $('builder-view').hidden=puzzleActive;
+    $('back').hidden=puzzleActive;
+    if(!puzzleActive){
+      const index=focusField?puzzleElements.findIndex(item=>item.field===focusField):activeStep;
+      activateElement(index<0?0:index,false);
+    }
+    if(!puzzleActive&&focusField){
+      requestAnimationFrame(()=>{
+        const field=$(focusField);
+        field.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+        field.focus({preventScroll:true});
+      });
+    }
+  }
+  function updatePieces(){
+    puzzleElements.forEach((item,index)=>{
+      const button=$('piece-'+index);
+      button.querySelector('.piece-name').textContent=item.name;
+      button.setAttribute('aria-label','Открыть: '+item.name);
+    });
+  }
+  function choosePiece(index){
+    setView('builder',puzzleElements[index].field);
+  }
+  function initPuzzle(){
+    const art=$('puzzle-art');art.replaceChildren();art.setAttribute('viewBox','0 0 700 700');
+    $('puzzle').querySelectorAll('.puzzle-piece').forEach(button=>button.remove());
+    const center=350,radius=320;
+    const step=2*Math.PI/7;
+    const boundary=index=>-Math.PI/2-step/2+index*step;
+    function point(angle,s,t=0){return [center+s*Math.cos(angle)-t*Math.sin(angle),center+s*Math.sin(angle)+t*Math.cos(angle)];}
+    function coords(p){return p.map(n=>n.toFixed(3)).join(' ');}
+    function seam(angle){
+      const p=(s,t=0)=>point(angle,s,t);
+      return [
+        {type:'L',start:p(0),end:p(148)},
+        {type:'C',start:p(148),a:p(158),b:p(163),end:p(163,7)},
+        {type:'C',start:p(163,7),a:p(163,14),b:p(150,15),end:p(150,28)},
+        {type:'C',start:p(150,28),a:p(150,58),b:p(214,58),end:p(214,28)},
+        {type:'C',start:p(214,28),a:p(214,15),b:p(201,14),end:p(201,7)},
+        {type:'C',start:p(201,7),a:p(201),b:p(206),end:p(216)},
+        {type:'L',start:p(216),end:p(radius)}
+      ];
+    }
+    function seamCommands(segments,reverse=false){
+      const ordered=reverse?[...segments].reverse():segments;
+      return ordered.map(segment=>{
+        const end=reverse?segment.start:segment.end;
+        if(segment.type==='L')return 'L '+coords(end);
+        return 'C '+coords(reverse?segment.b:segment.a)+' '+coords(reverse?segment.a:segment.b)+' '+coords(end);
+      }).join(' ');
+    }
+    puzzleElements.forEach((item,index)=>{
+      const angle=-Math.PI/2+index*step;
+      const label=point(angle,242);
+      const shape=document.createElementNS('http://www.w3.org/2000/svg','path');
+      const start=boundary(index),end=boundary(index+1);
+      const d='M 350 350 '+seamCommands(seam(start))+' A '+radius+' '+radius+' 0 0 1 '+coords(point(end,radius))+' '+seamCommands(seam(end),true)+' Z';
+      shape.setAttribute('d',d);shape.setAttribute('class','puzzle-shape');shape.dataset.piece=String(index);
+      shape.style.setProperty('--piece-fill',item.fill);
+      shape.addEventListener('click',()=>choosePiece(index));art.append(shape);
+      const button=document.createElement('button');button.type='button';button.className='puzzle-piece';button.id='piece-'+index;
+      button.style.left=(label[0]/700*100)+'%';button.style.top=(label[1]/700*100)+'%';button.style.setProperty('--piece-ink',item.ink);
+      const name=document.createElement('span');name.className='piece-name';name.textContent=item.name;
+      button.append(name);button.addEventListener('click',()=>choosePiece(index));
+      button.addEventListener('pointerenter',()=>shape.classList.add('highlighted'));
+      button.addEventListener('pointerleave',()=>shape.classList.remove('highlighted'));
+      button.addEventListener('focus',()=>shape.classList.add('highlighted'));
+      button.addEventListener('blur',()=>shape.classList.remove('highlighted'));
+      $('puzzle').append(button);
+    });
+    updatePieces();
+    setView(document.documentElement.dataset.view==='builder'?'builder':'puzzle');
+  }
+  $('back').addEventListener('click',()=>{
+    setView('puzzle');
+    $('piece-'+activeStep).focus({preventScroll:true});
+  });
+
+
+  function activateElement(index,focus){
+    activeStep=index;
+    document.documentElement.dataset.activeStep=String(index);
+    form.querySelectorAll(':scope > .card').forEach((card,i)=>{card.hidden=i!==index;});
+    $('orbit-navigation').querySelectorAll('button').forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
+    preview.querySelectorAll('.block').forEach((block,i)=>block.classList.toggle('active-block',i===index));
+    const hub=$('orbit-hub');if(hub)hub.textContent=puzzleElements[index].name;
+    if(focus){
+      const card=form.querySelectorAll(':scope > .card')[index];
+      const field=card.querySelector('select,input,textarea');
+      if(field)field.focus({preventScroll:true});
+      const block=preview.querySelectorAll('.block')[index];
+      if(block)preview.scrollTop=Math.max(0,block.offsetTop-preview.offsetTop-18);
+      if(window.matchMedia('(max-width:650px)').matches)form.scrollIntoView({block:'nearest',behavior:'instant'});
+    }
+  }
+  function initOrbit(){
+    const navigation=$('orbit-navigation');navigation.replaceChildren();
+    const hub=document.createElement('div');hub.className='orbit-hub';hub.id='orbit-hub';hub.setAttribute('aria-hidden','true');navigation.append(hub);
+    puzzleElements.forEach((item,index)=>{
+      const angle=(-90+index*360/7)*Math.PI/180;
+      const button=document.createElement('button');button.type='button';button.className='orbit-button '+item.className;button.id='orbit-'+index;
+      button.textContent=item.name;button.style.left=(50+39*Math.cos(angle))+'%';button.style.top=(50+39*Math.sin(angle))+'%';
+      button.setAttribute('aria-controls','editor-'+index);button.setAttribute('aria-pressed','false');
+      button.addEventListener('click',()=>activateElement(index,true));navigation.append(button);
+      form.querySelectorAll(':scope > .card')[index].id='editor-'+index;
+    });
+    const saved=Number(document.documentElement.dataset.activeStep||0);
+    activateElement(Number.isInteger(saved)&&saved>=0&&saved<7?saved:0,false);
+  }
+  initOrbit();
+
+  initPuzzle();
+
+  window.addEventListener('pageshow',render);render();
+})();
+</script>
+</body>
+</html>

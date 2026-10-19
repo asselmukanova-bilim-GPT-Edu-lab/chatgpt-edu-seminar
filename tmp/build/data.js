@@ -206,3 +206,6 @@ slides.splice(slides.findIndex(s=>s.kind==="social-contacts"),0,{"base": 6003, "
 
 // Cover text follows the presentation language.
 slides[0].bilingualCover=true;
+
+// Interactive prompt builder follows the seven-element explanation.
+slides.splice(slides.findIndex(s=>s.kind==='prompt-foundation')+1,0,{"base":7016,"kind":"prompt-puzzle-builder","m":0,"c":3,"t":1,"title":["Конструктор промптов","Промпт құрастырғыш"],"lead":["",""],"cards":[],"note":["Нажмите на часть пазла, заполните поля и скопируйте готовый промпт. Кнопка «Назад» возвращает к пазлу.","Пазл бөлігін басып, өрістерді толтырыңыз және дайын промптты көшіріңіз. «Назад» батырмасы пазлға қайтарады."]});
