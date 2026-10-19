@@ -7,6 +7,8 @@ SITE='https://asselmukanova-bilim-gpt-edu-lab.github.io/chatgpt-edu-seminar/'
 RELEASE='https://github.com/asselmukanova-bilim-GPT-Edu-lab/chatgpt-edu-seminar/releases/download/seminar-2026-10-06/'
 (ROOT/'downloads').mkdir(exist_ok=True)
 (ROOT/'outputs').mkdir(exist_ok=True)
+builder=(ROOT/'assets/Prompt_Builder_Teachers.html').read_text(encoding='utf-8')
+(ROOT/'downloads/Prompt-Builder.html').write_text(builder.replace('<html lang="ru">','<html lang="ru" data-view="builder">'),encoding='utf-8')
 for part in ([int(sys.argv[1])] if len(sys.argv)>1 else (1,2)):
     folder=ROOT/f'part-{part}'
     source=(folder/'index.html').read_text(encoding='utf-8')
