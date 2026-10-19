@@ -181,6 +181,26 @@ html[data-view="builder"] .preview-panel{grid-column:2;grid-row:1/3;height:100%;
 @media(max-width:520px){form#builder{grid-template-columns:1fr}html[data-view="builder"] h1{font-size:21px}.brand{gap:10px}form#builder .card{min-height:130px}}
 @media print{.orbital-builder{display:none!important}.workspace{display:block!important;height:auto!important}.preview-panel{height:auto!important}.block.active-block{background:white}}
 
+
+html[lang="kk"] .orbit:after{content:"7 элемент\AБір нақты промпт"}
+/* Compact, continuous example with the seven colour markers retained. */
+.preview-head{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:13px 15px}
+.preview-head h2{grid-column:1;font-size:20px}
+.preview-head svg{grid-column:2;grid-row:1/3}
+.sample-caption{margin:0;grid-column:1;font-size:11px;line-height:1.3;opacity:.9}
+.preview{padding:14px 12px;overflow:auto}
+.block{margin:0 0 8px;padding:3px 8px;border-radius:0}
+.block h3,.block p{display:inline;font-size:15px;line-height:1.45;white-space:normal}
+.block h3{margin:0;font-weight:700}
+.block.active-block{background:transparent}
+html[data-embed="puzzle"] body{background:transparent;overflow:hidden}
+html[data-embed="puzzle"] .app{padding:0;max-width:none}
+html[data-embed="puzzle"] header,html[data-embed="puzzle"] #builder-view{display:none!important}
+html[data-embed="puzzle"] .puzzle-stage{height:100dvh;min-height:0;padding:0;display:grid;place-items:center}
+html[data-embed="puzzle"] .puzzle{width:min(100vw,100dvh);height:min(100vw,100dvh);max-width:none;aspect-ratio:1}
+html[data-embed="puzzle"] .puzzle-piece{font-size:clamp(12px,3vw,21px)}
+@media(min-width:1500px){.block h3,.block p{font-size:16px}.sample-caption{font-size:14px}.preview-head h2{font-size:25px}.block{margin-bottom:10px}}
+@media(max-width:900px){.preview{overflow:auto}.block h3,.block p{font-size:15px}}
 </style>
 </head>
 <body>
@@ -278,6 +298,36 @@ html[data-view="builder"] .preview-panel{grid-column:2;grid-row:1/3;height:100%;
   const preview = $('preview');
   const output = $('prompt');
   let toastTimer;
+  const params=new URLSearchParams(location.search), kk=params.get('lang')==='kk';
+  const sample=kk?{
+    names:['Рөл','Тапсырма','Контекст','Аудитория','Формат','Стиль','Шектеулер'],
+    role:'балалар жазушысы және қазақ тілі оқулықтарының авторы',
+    task:'Лексикалық сөздік қорды байытатын көркем мәтін құрастыр.',
+    topic:'тура және ауыспалы мағына, омоним, антоним, синоним',
+    format:'Тақырып, 2–3 абзац және мәтіннен алынған лексикалық мысалдар тізімі.',
+    tone:'Жеңіл әрі әсерлі әңгімелеу.', limits:'100–120 сөз. Күрделі ғылыми анықтамаларсыз.',
+    roleOption:'Балалар жазушысы · қазақ тілі', taskOption:'Лексикаға арналған көркем мәтін',formatOption:'Тақырып, 2–3 абзац және мысалдар',toneOption:'Жеңіл әрі әсерлі',
+    heading:'Мысал: қазақ тілі, 5-сынып'
+  }:{
+    names:['Роль','Задача','Контекст','Аудитория','Формат','Стиль','Ограничения'],
+    role:'детский писатель и автор учебников казахского языка',
+    task:'Создай художественный текст для обогащения словарного запаса.',
+    topic:'прямое и переносное значение, омонимы, антонимы, синонимы',
+    format:'Заголовок, 2–3 абзаца и список лексических примеров из текста.',
+    tone:'Лёгкое и выразительное повествование.', limits:'100–120 слов. Без сложных научных определений.',
+    roleOption:'Детский писатель · казахский язык',taskOption:'Художественный текст: лексика',formatOption:'Заголовок, 2–3 абзаца и примеры',toneOption:'Легко и выразительно',
+    heading:'Пример: казахский язык, 5 класс'
+  };
+  for(const id of ['role','task','format','tone']){const option=new Option(sample[id+'Option'],'example');$(id).prepend(option);}
+  function loadExample(){
+    form.reset();form.querySelectorAll('input[type=text],textarea').forEach(x=>x.value='');
+    form.querySelectorAll('input[type=checkbox]').forEach(x=>x.checked=false);
+    for(const id of ['role','task','format','tone'])$(id).value='example';
+    $('subject').value='Казахский язык';$('topic').value=sample.topic;
+    $('grade').value='5';$('age').value=kk?'10–11 жас':'10–11 лет';
+    $('language').value='Қазақ тілі';$('limits').value=sample.limits;
+  }
+
   const tasks = {
     test: 'Составь тест с ключами ответов и критериями оценивания. Ответы и пояснения вынеси в отдельный блок для учителя.',
     lesson: 'Разработай сценарий интерактивного урока: этапы, действия учителя и учеников, время, материалы и проверка понимания.',
@@ -313,32 +363,32 @@ html[data-view="builder"] .preview-panel{grid-column:2;grid-row:1/3;height:100%;
   function buildBlocks() {
     const context=[];
     const subject=chosen('subject');
-    if(subject)context.push('Предмет: '+subject+'.');
-    if(value('topic'))context.push('Тема: '+value('topic'));
-    if(value('goal'))context.push('Цель обучения: '+value('goal'));
-    if(value('materials'))context.push('Предоставленные материалы:\n'+value('materials'));
+    if(subject&&value('subject')!=='Казахский язык')context.push((kk?'Пән: ':'Предмет: ')+subject+'.');
+    if(value('topic'))context.push((kk?'Тақырып: ':'Тема: ')+value('topic')+'.');
+    if(value('goal'))context.push((kk?'Оқу мақсаты: ':'Цель обучения: ')+value('goal'));
+    if(value('materials'))context.push((kk?'Материалдар: ':'Материалы: ')+value('materials'));
     const audience=[];
-    if(value('grade')!=='custom')audience.push('Ученики '+value('grade')+' класса.');
-    if(value('age'))audience.push('Возраст: '+value('age'));
+    if(value('grade')!=='custom')audience.push(kk?value('grade')+'-сынып оқушылары,':'Ученики '+value('grade')+' класса,');
+    if(value('age'))audience.push(value('age')+'.');
     if(value('audience'))audience.push(value('audience'));
     const style=[];
     const language=chosen('language');
-    if(language)style.push('Язык ответа: '+language+'.');
-    const tone=value('tone')==='custom'?value('tone-custom'):tones[value('tone')];
+    if(language)style.push(language==='Қазақ тілі'?(kk?'Қазақ тілінде.':'На казахском языке.'):(kk?'Жауап тілі: ':'Язык ответа: ')+language+'.');
+    const tone=value('tone')==='example'?sample.tone:value('tone')==='custom'?value('tone-custom'):tones[value('tone')];
     if(tone)style.push(tone);
     const limits=[];
     form.querySelectorAll('input[name="rule"]:checked').forEach(check=>limits.push(rules[check.value]));
     if(value('limits'))limits.push(value('limits'));
-    limits.push('Опирайся на учебную программу и предоставленные материалы. Не выдумывай коды целей обучения, факты и источники. Если нужные материалы или требования не предоставлены, запроси их.');
-    const role=chosen('role');
+
+    const role=value('role')==='example'?sample.role:chosen('role');
     return [
-      {name:'Роль',className:'role',text:role?'Ты — '+role+'.':''},
-      {name:'Задача',className:'task',text:value('task')==='custom'?value('task-custom'):tasks[value('task')]},
-      {name:'Контекст',className:'context',text:context.join('\n')},
-      {name:'Аудитория',className:'audience',text:audience.join('\n')},
-      {name:'Формат',className:'format',text:value('format')==='custom'?value('format-custom'):formats[value('format')]},
-      {name:'Стиль',className:'style',text:style.join('\n')},
-      {name:'Ограничения',className:'limits',text:limits.join('\n')}
+      {name:'Роль',className:'role',text:role?(kk?'Сен — '+role+(value('role')==='example'?'сың.':'.'):'Ты — '+role+'.'):''},
+      {name:'Задача',className:'task',text:value('task')==='example'?sample.task:value('task')==='custom'?value('task-custom'):tasks[value('task')]},
+      {name:'Контекст',className:'context',text:context.join(' ')},
+      {name:'Аудитория',className:'audience',text:audience.join(' ')},
+      {name:'Формат',className:'format',text:value('format')==='example'?sample.format:value('format')==='custom'?value('format-custom'):formats[value('format')]},
+      {name:'Стиль',className:'style',text:style.join(' ')},
+      {name:'Ограничения',className:'limits',text:limits.join(' ')}
     ];
   }
   function render() {
@@ -349,12 +399,12 @@ html[data-view="builder"] .preview-panel{grid-column:2;grid-row:1/3;height:100%;
     blocks.forEach((block,index)=>{
       const section=document.createElement('section');section.className='block '+block.className+(index===activeStep?' active-block':'');
       section.dataset.step=String(index);
-      const heading=document.createElement('h3');heading.textContent=block.name;
+      const heading=document.createElement('h3');heading.textContent=sample.names[index]+'. ';
       const paragraph=document.createElement('p');paragraph.textContent=block.text;
       section.append(heading,paragraph);fragment.append(section);
     });
     preview.replaceChildren(fragment);preview.scrollTop=scroll;
-    output.value=blocks.map(block=>'['+block.name.toLocaleUpperCase('ru-RU')+']\n'+block.text).join('\n\n');
+    output.value=blocks.map((block,i)=>sample.names[i]+'. '+block.text).join('\n');
   }
   function notify(text) {
     clearTimeout(toastTimer);$('toast').textContent=text;$('toast').classList.add('show');
@@ -372,15 +422,7 @@ html[data-view="builder"] .preview-panel{grid-column:2;grid-row:1/3;height:100%;
     if(done)notify('Скопировано!');
     else{$('manual-copy').value=output.value;$('copy-dialog').showModal();$('manual-copy').select();notify('Ctrl+C / ⌘C · Копировать');}
   }
-  function reset() {
-    form.reset();
-    form.querySelectorAll('input[type="text"],textarea').forEach(field=>field.value='');
-    form.querySelectorAll('input[type="checkbox"]').forEach(field=>field.checked=false);
-    const defaults={role:'Опытный учитель-методист',subject:'Математика',task:'test',grade:'5',format:'table',language:'Русский',tone:'clear'};
-    Object.entries(defaults).forEach(([id,defaultValue])=>$(id).value=defaultValue);
-    activateElement(0,false);render();preview.scrollTop=0;notify('Форма сброшена');
-  }
-
+  function reset(){loadExample();activateElement(0,false);render();preview.scrollTop=0;notify(kk?'Мысал қалпына келтірілді':'Пример восстановлен');}
   form.addEventListener('submit',event=>event.preventDefault());
   form.addEventListener('input',render);form.addEventListener('change',render);
   $('copy').addEventListener('click',copy);$('reset').addEventListener('click',reset);
@@ -417,11 +459,12 @@ html[data-view="builder"] .preview-panel{grid-column:2;grid-row:1/3;height:100%;
   function updatePieces(){
     puzzleElements.forEach((item,index)=>{
       const button=$('piece-'+index);
-      button.querySelector('.piece-name').textContent=item.name;
-      button.setAttribute('aria-label','Открыть: '+item.name);
+      button.querySelector('.piece-name').textContent=sample.names[index];
+      button.setAttribute('aria-label',(kk?'Ашу: ':'Открыть: ')+sample.names[index]);
     });
   }
   function choosePiece(index){
+    if(params.get('mode')==='puzzle'&&window.parent!==window){window.parent.postMessage({type:'open-prompt-builder'},location.origin);return;}
     setView('builder',puzzleElements[index].field);
   }
   function initPuzzle(){
@@ -463,7 +506,7 @@ html[data-view="builder"] .preview-panel{grid-column:2;grid-row:1/3;height:100%;
       shape.addEventListener('click',()=>choosePiece(index));art.append(shape);
       const button=document.createElement('button');button.type='button';button.className='puzzle-piece';button.id='piece-'+index;
       button.style.left=(label[0]/700*100)+'%';button.style.top=(label[1]/700*100)+'%';button.style.setProperty('--piece-ink',item.ink);
-      const name=document.createElement('span');name.className='piece-name';name.textContent=item.name;
+      const name=document.createElement('span');name.className='piece-name';name.textContent=sample.names[index];
       button.append(name);button.addEventListener('click',()=>choosePiece(index));
       button.addEventListener('pointerenter',()=>shape.classList.add('highlighted'));
       button.addEventListener('pointerleave',()=>shape.classList.remove('highlighted'));
@@ -472,9 +515,10 @@ html[data-view="builder"] .preview-panel{grid-column:2;grid-row:1/3;height:100%;
       $('puzzle').append(button);
     });
     updatePieces();
-    setView(document.documentElement.dataset.view==='builder'?'builder':'puzzle');
+    setView(params.get('mode')==='builder'||document.documentElement.dataset.view==='builder'?'builder':'puzzle');
   }
   $('back').addEventListener('click',()=>{
+    if(params.get('mode')==='builder'&&window.parent!==window){window.parent.postMessage({type:'prompt-builder-back'},location.origin);return;}
     setView('puzzle');
     $('piece-'+activeStep).focus({preventScroll:true});
   });
@@ -506,6 +550,23 @@ html[data-view="builder"] .preview-panel{grid-column:2;grid-row:1/3;height:100%;
       card.addEventListener('focusin',()=>activateElement(index,false));
     });
     activateElement(0,false);
+  }
+  loadExample();
+  if(params.get('mode')==='puzzle')document.documentElement.dataset.embed='puzzle';
+  const caption=document.createElement('p');caption.className='sample-caption';caption.textContent=sample.heading;
+  $('preview-title').after(caption);
+  if(kk){
+    document.documentElement.lang='kk';
+    document.querySelector('header h1').textContent='Промпт конструкторы';
+    $('back').textContent='Артқа';$('preview-title').textContent='Дайын промпт';
+    form.querySelectorAll('.card h2').forEach((h,i)=>h.textContent=sample.names[i]);
+    const labels={subject:'Пән',topic:'Тақырып',goal:'Оқу мақсаты',materials:'Материалдар',grade:'Сынып',age:'Жасы',audience:'Аудитория ерекшеліктері',language:'Тіл',tone:'Баяндау мәнері',limits:'Көлемі мен талаптары'};
+    for(const [id,text] of Object.entries(labels)){const span=form.querySelector('label[for="'+id+'"]>span');if(span)span.textContent=text;}
+    for(const option of $('grade').options){const v=option.value;option.textContent=v==='custom'?'Басқа':v+'-сынып';}
+    for(const option of $('subject').options){if(option.value==='Казахский язык'){option.value='Казахский язык';option.textContent='Қазақ тілі';}}
+    const checkNames={simple:'Қарапайым тіл',time:'10–15 минут',advanced:'Күрделі тапсырма',life:'Өмірден мысалдар'};
+    form.querySelectorAll('input[name="rule"]').forEach(input=>{input.parentElement.lastChild.textContent=checkNames[input.value];});
+    $('copy').lastChild.textContent='Промптты көшіру';$('reset').lastChild.textContent='Қалпына келтіру';
   }
   initOrbit();
 

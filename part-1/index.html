@@ -73,6 +73,12 @@
 .bilingual-seminar-cover .bc-brand{position:absolute!important;left:128px;bottom:77px;width:210px;height:37px;overflow:hidden}
 .bilingual-seminar-cover .bc-brand img{position:absolute;width:1280px;max-width:none;height:720px;left:-128px;top:-607px}
 
+
+/* The example now opens in the editor; its place holds the interactive puzzle. */
+.prompt-foundation-slide .prompt-learning-grid{grid-template-columns:.9fr 1.25fr;align-items:center;height:510px;gap:28px}
+.prompt-foundation-slide .prompt-puzzle-example{height:100%;min-height:0;display:flex;align-items:center;justify-content:center}
+.prompt-foundation-slide .prompt-puzzle-example iframe{display:block;width:100%;height:100%;border:0;background:transparent}
+.prompt-foundation-slide .prompt-principle{margin-top:14px}
 </style><!-- Inter font license
 Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter)
 
@@ -317,7 +323,7 @@ function render(){const s=slides[index],dark=[0,22,30,44,47].includes(s.base);do
 if(s.base===0){$('#slide .eyebrow').querySelectorAll(':scope > span:not(.cover-mark)').forEach(el=>el.remove());$('#slide .lead')?.remove();$('#slide .content').replaceChildren();$('#slide .slide-bottom').remove();}
 if(s.base!==0){$('#slide .eyebrow')?.remove();$('#slide .slide-bottom')?.remove();}
 if(s.kind==='prompt-activity')$('#slide').classList.add('prompt-activity-slide');
-if(s.kind==='prompt-puzzle-builder'){$('#slide').className='slide prompt-puzzle-builder-slide';$('#slide').innerHTML='<h1 id="slideTitle" class="sr">'+esc(s.title[lang])+'</h1><iframe src="assets/Prompt_Builder_Teachers.html?v=20261019-ring" title="'+esc(s.title[lang])+'" allow="fullscreen; clipboard-write" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>';}
+if(s.kind==='prompt-puzzle-builder'){$('#slide').className='slide prompt-puzzle-builder-slide';$('#slide').innerHTML='<h1 id="slideTitle" class="sr">'+esc(s.title[lang])+'</h1><iframe src="assets/Prompt_Builder_Teachers.html?v=20261019-example&amp;mode=builder&amp;lang='+(lang?'kk':'ru')+'" title="'+esc(s.title[lang])+'" allow="fullscreen; clipboard-write" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>';}
 if(s.kind==='prompt-foundation')$('#slide').classList.add('prompt-foundation-slide');
 if(s.kind==='codex')$('#slide').classList.add('codex-info-slide');
 if(s.kind==='edu-limits')renderFileLimits();
@@ -481,7 +487,7 @@ function promptFoundationHTML(){const d=lang?{
  formula:'7 элементов промпта',example:'Пример: казахский язык, 5 класс',labels:['Роль','Задача','Контекст','Аудитория','Формат','Стиль','Ограничения'],questions:['В какой роли отвечает ИИ?','Что нужно создать?','Каковы тема, цель и материалы?','Для кого предназначен результат?','В каком виде нужен результат?','Каковы язык и тон изложения?','Каковы объём и требования?'],
  parts:['Ты — детский писатель и автор учебников казахского языка.','Создай художественный текст для обогащения словарного запаса.','Тема: прямое и переносное значение, омонимы, антонимы, синонимы.','Ученики 5 класса, 10–11 лет.','Заголовок, 2–3 абзаца и список лексических примеров из текста.','На казахском языке, лёгкое и выразительное повествование.','100–120 слов. Без сложных научных определений.'],
  foot:'Опора на учебную программу и предоставленные материалы. Код учебной цели не придумывается.',take:'Понятный промпт → первый вариант → проверка и уточнение учителем',source:'Источник: предоставленная презентация, слайды 10, 12–13'};
- return '<div class="prompt-foundation"><p class="prompt-definition">'+d.intro+'</p><div class="prompt-learning-grid"><section><h2>'+d.formula+'</h2><div class="prompt-elements">'+d.labels.map((v,i)=>'<div><span>'+String(i+1).padStart(2,'0')+'</span><section><h3>'+v+'</h3><p>'+d.questions[i]+'</p></section></div>').join('')+'</div></section><section class="prompt-worked"><h2>'+d.example+'</h2>'+d.parts.map((v,i)=>'<p><strong>'+d.labels[i]+'.</strong> '+v+'</p>').join('')+'</section></div><div class="prompt-principle">'+d.foot+'</div><div class="prompt-learning-bottom"><strong>'+d.take+'</strong></div></div>';}
+ return '<div class="prompt-foundation"><div class="prompt-learning-grid"><section><h2>'+d.formula+'</h2><div class="prompt-elements">'+d.labels.map((v,i)=>'<div><span>'+String(i+1).padStart(2,'0')+'</span><section><h3>'+v+'</h3><p>'+d.questions[i]+'</p></section></div>').join('')+'</div></section><section class="prompt-puzzle-example"><iframe src="assets/Prompt_Builder_Teachers.html?v=20261019-example&amp;mode=puzzle&amp;lang='+ (lang?'kk':'ru') +'" title="'+d.formula+'"></iframe></section></div><div class="prompt-principle">'+d.foot+'</div></div>';}
 
 window.addEventListener('message',e=>{const frame=document.querySelector('.plugin-import-slide iframe');if(!frame||e.source!==frame.contentWindow)return;if(e.data?.type==='plugin-import-nav')goto(Math.max(0,Math.min(slides.length-1,index+e.data.delta)));if(e.data?.type==='plugin-import-target'){const target=slides.findIndex(s=>s.kind==='plugin-import'&&s.pluginPage===e.data.slide);if(target>=0)goto(target);}});
 
@@ -500,4 +506,4 @@ $('#slide').className='slide bilingual-seminar-cover';
 $('#slide').innerHTML=`<img class="bc-ornament" src="assets/cover/ornament-blue-portrait.png" alt=""><p class="bc-project">${tr('Национальный проект ChatGPT Edu','ChatGPT Edu ұлттық жобасы')}</p><div class="bc-copy"><h1 id="slideTitle">${tr('ИИ в образовании:','Білім берудегі ЖИ:')}</h1><p class="bc-subtitle">${tr('новые возможности для автоматизации работы педагога','педагог жұмысын автоматтандыруға көмектесетін жаңа мүмкіндіктер')}</p></div><div class="bc-brand"><img src="${s.image}" alt="bilimgroup"></div>`;
 }
 
-</script></body></html>
+</script><script>window.addEventListener('message',e=>{const f=document.querySelector('.prompt-puzzle-example iframe');if(f&&e.source===f.contentWindow&&e.data?.type==='open-prompt-builder'){const target=slides.findIndex(s=>s.kind==='prompt-puzzle-builder');if(target>=0)goto(target);}});</script><script>window.addEventListener('message',e=>{const f=document.querySelector('.prompt-puzzle-builder-slide iframe');if(f&&e.source===f.contentWindow&&e.data?.type==='prompt-builder-back'){const target=slides.findIndex(s=>s.kind==='prompt-foundation');if(target>=0)goto(target);}});</script></body></html>
