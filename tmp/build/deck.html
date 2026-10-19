@@ -245,6 +245,24 @@
 .html-workshop-slide .hw-checks label{font-size:20px;line-height:1.35;margin:0;align-items:center;gap:12px}
 .html-workshop-slide .hw-checks input{width:21px;height:21px;flex-basis:21px}
 .html-workshop-slide .hw-link{align-self:flex-start;margin:0;padding:4px 0;font-size:18px}
+
+/* Seminar agenda with a bilingual welcome speech bubble. */
+.slide.route-style .content{justify-content:flex-start;min-height:0}
+.seminar-overview{display:grid;grid-template-columns:1.2fr 1fr;gap:38px;flex:1;min-height:0}
+.slide.route-style ol.seminar-plan{font-size:23px;line-height:1.32;gap:19px;margin:20px 0 0;padding-left:31px;align-content:start}
+.slide.route-style ol.seminar-plan li{padding-left:6px}
+.seminar-welcome{position:relative;min-height:0;padding-bottom:150px}
+.welcome-bubble{position:relative;z-index:1;background:rgba(255,255,255,.96);border:1.5px solid #d8d4f4;border-radius:24px;padding:20px 23px;box-shadow:0 8px 24px #28205b09}
+.welcome-bubble:after{content:"";position:absolute;right:118px;bottom:-22px;width:27px;height:30px;background:#fff;border-right:1.5px solid #d8d4f4;border-bottom:1.5px solid #d8d4f4;transform:skewY(-40deg);border-bottom-right-radius:5px}
+.welcome-bubble h2{font-size:22px;line-height:1.2;margin:0 0 14px;color:#171d38}
+.welcome-duration{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.welcome-duration span{background:#efedff;border-radius:12px;padding:10px 14px;font-size:17px;color:#3c3487}
+.welcome-duration b{display:block;font-size:24px;color:#3530dd;margin-top:3px}
+.welcome-bubble h3{font-size:20px;margin:0 0 10px;color:#171d38}
+.slide.route-style .welcome-bubble ul{margin:0;padding-left:19px;font-size:18px;line-height:1.32;color:#202638}
+.slide.route-style .welcome-bubble li{margin:0 0 9px;padding-left:2px}
+.slide.route-style .welcome-bubble li:last-child{margin-bottom:0}
+.welcome-teacher{position:absolute;right:4px;bottom:-6px;height:185px;width:124px;object-fit:contain;z-index:2}
 </style></head><body>
 <header><div class="brand"><img src="/*LOGO*/" alt="BilimAI"><span>BilimAI <span style="font-weight:400;color:#718096">/ ChatGPT Edu</span></span></div><nav class="tools" aria-label="Управление"><button id="menuBtn"></button><button id="notesBtn"></button><button id="sourcesBtn"></button><button id="fullBtn" aria-label="Полный экран">⛶</button><div class="lang"><button id="ru" lang="ru">RU</button><button id="kk" lang="kk">KK</button></div></nav></header>
 <main class="stage-wrap"><div class="stage" id="stage"><section class="slide" id="slide" aria-labelledby="slideTitle"></section></div></main>
