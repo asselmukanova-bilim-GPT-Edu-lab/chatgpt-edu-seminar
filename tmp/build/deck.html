@@ -214,6 +214,18 @@
 .sites-result strong{color:#32248c;white-space:nowrap;font-size:18px}
 .sites-slide button:focus-visible,.sites-fields input:focus-visible{outline:3px solid #897aff;outline-offset:3px}
 
+
+/* Montserrat is bundled locally for both Sites workshop slides. */
+@font-face{font-family:SeminarMontserrat;font-style:normal;font-weight:100 900;font-display:swap;src:url('assets/fonts/Montserrat.ttf') format('truetype')}
+.slide.sites-slide,.sites-slide button,.sites-slide input,.sites-slide textarea{font-family:SeminarMontserrat,Arial,sans-serif!important}
+.sites-prompt textarea{font-size:18px;line-height:1.48;color:#182238}
+
+
+.sites-checklist{gap:8px;margin-top:10px}
+.sites-slide .sites-check{padding:10px 12px}
+.sites-check strong{font-size:19px}
+.sites-check small{font-size:14px}
+.sites-fields input{font-size:16px}
 </style></head><body>
 <header><div class="brand"><img src="/*LOGO*/" alt="BilimAI"><span>BilimAI <span style="font-weight:400;color:#718096">/ ChatGPT Edu</span></span></div><nav class="tools" aria-label="Управление"><button id="menuBtn"></button><button id="notesBtn"></button><button id="sourcesBtn"></button><button id="fullBtn" aria-label="Полный экран">⛶</button><div class="lang"><button id="ru" lang="ru">RU</button><button id="kk" lang="kk">KK</button></div></nav></header>
 <main class="stage-wrap"><div class="stage" id="stage"><section class="slide" id="slide" aria-labelledby="slideTitle"></section></div></main>

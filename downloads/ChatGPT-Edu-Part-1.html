@@ -148,6 +148,18 @@
 .sites-result strong{color:#32248c;white-space:nowrap;font-size:18px}
 .sites-slide button:focus-visible,.sites-fields input:focus-visible{outline:3px solid #897aff;outline-offset:3px}
 
+
+/* Montserrat is bundled locally for both Sites workshop slides. */
+@font-face{font-family:SeminarMontserrat;font-style:normal;font-weight:100 900;font-display:swap;src:url('assets/fonts/Montserrat.ttf') format('truetype')}
+.slide.sites-slide,.sites-slide button,.sites-slide input,.sites-slide textarea{font-family:SeminarMontserrat,Arial,sans-serif!important}
+.sites-prompt textarea{font-size:18px;line-height:1.48;color:#182238}
+
+
+.sites-checklist{gap:8px;margin-top:10px}
+.sites-slide .sites-check{padding:10px 12px}
+.sites-check strong{font-size:19px}
+.sites-check small{font-size:14px}
+.sites-fields input{font-size:16px}
 </style><!-- Inter font license
 Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter)
 
@@ -317,9 +329,9 @@ function showEthicsExpanded(n,tab=0){
 // Two bilingual seminar slides. State stays intact when changing slides or language.
 const sitesPractice={format:0,fields:{},done:new Set()};
 function sitesField(key){const defaults=lang?{subject:'Математика',grade:'5',topic:'Жай бөлшектер',goal:'Бөлімдері бірдей бөлшектерді салыстыру'}:{subject:'Математика',grade:'5',topic:'Обыкновенные дроби',goal:'Сравнивать дроби с одинаковыми знаменателями'};return sitesPractice.fields[key]??defaults[key];}
-function sitesPrompt(){const v=k=>sitesField(k).trim()||tr('[укажите '+({subject:'предмет',grade:'класс',topic:'тему',goal:'цель'}[k])+']','['+({subject:'пәнді',grade:'сыныпты',topic:'тақырыпты',goal:'мақсатты'}[k])+' көрсетіңіз]');return lang?
-`Sites көмегімен оқу сауалнамасын жаса. Пән: ${v('subject')}. Сынып: ${v('grade')}. Тақырып: ${v('topic')}. Оқу мақсаты: ${v('goal')}.\nҚазақ тілінде 5 сұрақ ұсын: әрқайсысына 3 нұсқа, бір дұрыс жауап пен түсіндірме.\n«Оқушы коды», «Тексеру», «Аяқтау», «Қайта бастау» қос. Бос жауапты ескер, ұпайды қайталап берме. Нәтижені 5 ұпайдан көрсет. Телефонға бейімде.\nТексеруге арналған нұсқаны көрсет. Әзірге қолжетімділік тек маған болсын. Ортақ нәтижелер кестесін бөлек баптаймыз.`:
-`Создай с помощью Sites учебный опрос. Предмет: ${v('subject')}. Класс: ${v('grade')}. Тема: ${v('topic')}. Учебная цель: ${v('goal')}.\nПредложи 5 вопросов на русском: по 3 варианта, один верный ответ и объяснение.\nДобавь «Код ученика», «Проверить», «Завершить», «Начать заново». Учти пустой ответ, исключи повторные баллы. Покажи итог из 5. Адаптируй для телефона.\nПокажи черновик для проверки. Доступ пока только мне. Общую таблицу результатов настроим отдельно.`;}
+function sitesPrompt(){const v=k=>sitesField(k).trim()||tr('[укажите '+({subject:'предмет',grade:'класс',topic:'тему',goal:'цель'}[k])+']','['+({subject:'пәнді',grade:'сыныпты',topic:'тақырыпты',goal:'мақсатты'}[k])+' көрсетіңіз]');const goal=v('goal').replace(/[.!?。]+$/,'');const plainGoal=goal.charAt(0).toLowerCase()+goal.slice(1);return lang?
+`Sites көмегімен ${v('grade')}-сыныпқа «${v('subject')}» пәнінен «${v('topic')}» тақырыбы бойынша бес сұрағы бар сайт жасап бер. Мақсаты — ${plainGoal}. Әр сұраққа үш жауап нұсқасын беріп, оқушы жауап берген соң дұрыс жауапты қысқаша түсіндір. Соңында нәтижесін көрсетіп, тапсырманы қайта орындауға болатын батырма қос.`:
+`Сделай в Sites сайт с пятью вопросами по предмету «${v('subject')}» для ${v('grade')} класса на тему «${v('topic')}». Цель задания — ${plainGoal}. К каждому вопросу добавь три варианта ответа, а после выбора покажи правильный ответ и коротко объясни его. В конце покажи результат и кнопку «Начать заново», чтобы можно было пройти задание ещё раз.`;}
 function sitesIntroHTML(){const formats=lang?[
 ['Оқу сауалнамасы','Оқушы жауап беріп, түсіндірме алады.','Бүгінгі тәжірибе: өз пәніңізден 5 сұрақтан тұратын сауалнама.'],
 ['Модель және симуляция','Оқушы шартты өзгертіп, нәтижені бақылайды.','Мысал: температураны өзгертіп, судың күйін зерттеу.'],
