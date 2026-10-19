@@ -201,6 +201,28 @@ html[data-embed="puzzle"] .puzzle{width:min(100vw,100dvh);height:min(100vw,100dv
 html[data-embed="puzzle"] .puzzle-piece{font-size:clamp(12px,3vw,21px)}
 @media(min-width:1500px){.block h3,.block p{font-size:16px}.sample-caption{font-size:14px}.preview-head h2{font-size:25px}.block{margin-bottom:10px}}
 @media(max-width:900px){.preview{overflow:auto}.block h3,.block p{font-size:15px}}
+
+/* Readable editor values: wrap complete text instead of clipping single lines. */
+html[data-view="builder"] .orbit:after{font-size:13px;line-height:1.45;color:#111;font-weight:500}
+form#builder label.field,form#builder .check{color:#111}
+form#builder textarea,form#builder select,form#builder .selected-value{font-size:14px;line-height:1.25;font-weight:400;color:#111}
+form#builder textarea{resize:none;overflow:hidden;min-height:29px;padding:5px 7px;field-sizing:content;overflow-wrap:anywhere}
+form#builder .card{height:auto;min-height:25%;overflow:visible}
+form#builder .context{min-height:28%;top:58%;width:36%;left:82%}
+form#builder .context .grid{grid-template-columns:1fr 1.5fr}
+form#builder .task{min-height:20%;top:28%}
+form#builder .limits{min-height:27%;top:32%}
+form#builder .role{min-height:22%;top:11%}
+form#builder .select-shell{position:relative;min-width:0;width:100%}
+form#builder .selected-value{min-height:29px;border:1px solid #ddddea;background:#fff;border-radius:7px;padding:5px 25px 5px 7px;white-space:normal;overflow-wrap:anywhere;pointer-events:none}
+form#builder .select-shell:after{content:'⌄';position:absolute;right:7px;top:6px;color:#333;pointer-events:none;font-size:15px}
+form#builder .select-shell select{position:absolute;inset:0;width:100%;height:100%;min-height:0;opacity:0;cursor:pointer}
+form#builder .select-shell:focus-within{outline:3px solid #8064ff;outline-offset:2px;border-radius:7px}
+.preview .block p{font-size:16px;line-height:1.4;color:#111}
+.preview .block h3{font-size:16px;line-height:1.4}
+@media(min-width:1500px){form#builder textarea,form#builder select,form#builder .selected-value{font-size:17px}form#builder .selected-value{min-height:37px;padding:6px 27px 6px 8px}html[data-view="builder"] .orbit:after{font-size:16px}}
+@media(max-width:900px){form#builder .card{min-height:155px;top:auto}form#builder .context{width:auto;left:auto}.preview .block p,.preview .block h3{font-size:16px}}
+
 </style>
 </head>
 <body>
@@ -224,7 +246,7 @@ html[data-embed="puzzle"] .puzzle-piece{font-size:clamp(12px,3vw,21px)}
 <section class="card role" aria-labelledby="role-title">
 <h2 id="role-title">Роль</h2><label class="sr-only" for="role">Роль</label>
 <select id="role" data-custom="role-custom"><option>Опытный учитель-методист</option><option>Строгий экзаменатор</option><option>Заботливый репетитор</option><option>Автор обучающих квестов и игр</option><option>Детский писатель и автор учебников</option><option value="custom">Свой вариант</option></select>
-<div class="custom" id="role-custom-wrap" hidden><label class="field" for="role-custom"><span>Своя роль</span><input type="text" id="role-custom" maxlength="500" disabled></label></div>
+<div class="custom" id="role-custom-wrap" hidden><label class="field" for="role-custom"><span>Своя роль</span><textarea rows="1" id="role-custom" maxlength="500" disabled></textarea></label></div>
 </section>
 <section class="card task" aria-labelledby="task-title">
 <h2 id="task-title">Задача</h2><label class="sr-only" for="task">Задача</label>
@@ -235,19 +257,19 @@ html[data-embed="puzzle"] .puzzle-piece{font-size:clamp(12px,3vw,21px)}
 <h2 id="context-title">Контекст</h2>
 <div class="grid">
 <div><label class="field" for="subject"><span>Предмет</span><select id="subject" data-custom="subject-custom"><option>Математика</option><option>Физика</option><option>Русский язык</option><option>Литература</option><option>Казахский язык</option><option>Казахская литература</option><option>История</option><option>Биология</option><option>Химия</option><option>Иностранный язык</option><option>Начальные классы</option><option>География</option><option>Информатика</option><option>Естествознание</option><option>Обществознание</option><option>Музыка</option><option>Изобразительное искусство</option><option>Технология</option><option>Физическая культура</option><option value="custom">Свой вариант</option></select></label>
-<div class="custom" id="subject-custom-wrap" hidden><label class="field" for="subject-custom"><span>Свой предмет</span><input type="text" id="subject-custom" maxlength="300" disabled></label></div>
+<div class="custom" id="subject-custom-wrap" hidden><label class="field" for="subject-custom"><span>Свой предмет</span><textarea rows="1" id="subject-custom" maxlength="300" disabled></textarea></label></div>
 </div>
-<label class="field" for="topic"><span>Тема</span><input type="text" id="topic" maxlength="600"></label>
-<label class="field" for="goal"><span>Цель обучения</span><input type="text" id="goal" maxlength="2000"></label>
-<label class="field" for="materials"><span>Материалы</span><input type="text" id="materials" maxlength="12000"></label>
+<label class="field" for="topic"><span>Тема</span><textarea rows="1" id="topic" maxlength="600"></textarea></label>
+<label class="field" for="goal"><span>Цель обучения</span><textarea rows="1" id="goal" maxlength="2000"></textarea></label>
+<label class="field" for="materials"><span>Материалы</span><textarea rows="1" id="materials" maxlength="12000"></textarea></label>
 </div>
 </section>
 <section class="card audience" aria-labelledby="audience-title">
 <h2 id="audience-title">Аудитория</h2>
 <div class="grid">
 <label class="field" for="grade"><span>Класс</span><select id="grade"><option value="1">1 класс</option><option value="2">2 класс</option><option value="3">3 класс</option><option value="4">4 класс</option><option value="5" selected>5 класс</option><option value="6">6 класс</option><option value="7">7 класс</option><option value="8">8 класс</option><option value="9">9 класс</option><option value="10">10 класс</option><option value="11">11 класс</option><option value="custom">Другая</option></select></label>
-<label class="field" for="age"><span>Возраст</span><input type="text" id="age" maxlength="100"></label>
-<label class="field wide" for="audience"><span>Особенности аудитории</span><input type="text" id="audience" maxlength="1500"></label>
+<label class="field" for="age"><span>Возраст</span><textarea rows="1" id="age" maxlength="100"></textarea></label>
+<label class="field wide" for="audience"><span>Особенности аудитории</span><textarea rows="1" id="audience" maxlength="1500"></textarea></label>
 </div>
 </section>
 <section class="card format" aria-labelledby="format-title">
@@ -259,9 +281,9 @@ html[data-embed="puzzle"] .puzzle-piece{font-size:clamp(12px,3vw,21px)}
 <h2 id="style-title">Стиль</h2>
 <div class="stack">
 <label class="field" for="language"><span>Язык</span><select id="language" data-custom="language-custom"><option>Русский</option><option>Қазақ тілі</option><option>English</option><option value="custom">Свой вариант</option></select></label>
-<div class="custom" id="language-custom-wrap" hidden><label class="field" for="language-custom"><span>Свой язык</span><input type="text" id="language-custom" maxlength="200" disabled></label></div>
+<div class="custom" id="language-custom-wrap" hidden><label class="field" for="language-custom"><span>Свой язык</span><textarea rows="1" id="language-custom" maxlength="200" disabled></textarea></label></div>
 <label class="field" for="tone"><span>Манера изложения</span><select id="tone" data-custom="tone-custom"><option value="clear">Просто и понятно</option><option value="friendly">Доброжелательно</option><option value="story">Живо и образно</option><option value="academic">Научно и точно</option><option value="formal">Официально и кратко</option><option value="custom">Свой вариант</option></select></label>
-<div class="custom" id="tone-custom-wrap" hidden><label class="field" for="tone-custom"><span>Свой стиль</span><input type="text" id="tone-custom" maxlength="1000" disabled></label></div>
+<div class="custom" id="tone-custom-wrap" hidden><label class="field" for="tone-custom"><span>Свой стиль</span><textarea rows="1" id="tone-custom" maxlength="1000" disabled></textarea></label></div>
 </div>
 </section>
 <section class="card limits" aria-labelledby="limits-title">
@@ -272,7 +294,7 @@ html[data-embed="puzzle"] .puzzle-piece{font-size:clamp(12px,3vw,21px)}
 <label class="check"><input type="checkbox" name="rule" value="advanced">Высокая сложность</label>
 <label class="check"><input type="checkbox" name="rule" value="life">Примеры из жизни</label>
 </div>
-<label class="field" for="limits"><span>Объём и требования</span><input type="text" id="limits" maxlength="3000"></label>
+<label class="field" for="limits"><span>Объём и требования</span><textarea rows="1" id="limits" maxlength="3000"></textarea></label>
 </section>
 </form>
 </div>
@@ -391,8 +413,26 @@ html[data-embed="puzzle"] .puzzle-piece{font-size:clamp(12px,3vw,21px)}
       {name:'Ограничения',className:'limits',text:limits.join(' ')}
     ];
   }
+
+  function fitEditorValues(){
+    form.querySelectorAll('select').forEach(select=>{
+      let shell=select.parentElement;
+      if(!shell.classList.contains('select-shell')){
+        shell=document.createElement('div');shell.className='select-shell';
+        select.before(shell);shell.append(select);
+        const text=document.createElement('div');text.className='selected-value';text.setAttribute('aria-hidden','true');shell.prepend(text);
+      }
+      shell.querySelector('.selected-value').textContent=select.options[select.selectedIndex]?.text||'';
+    });
+    form.querySelectorAll('textarea').forEach(field=>{
+      if(field.disabled||!field.getClientRects().length)return;
+      field.style.height='auto';field.style.height=Math.max(29,field.scrollHeight+2)+'px';
+    });
+  }
+
   function render() {
     syncFields();
+    fitEditorValues();
     const blocks=buildBlocks();
     const scroll=preview.scrollTop;
     const fragment=document.createDocumentFragment();
@@ -572,6 +612,7 @@ html[data-embed="puzzle"] .puzzle-piece{font-size:clamp(12px,3vw,21px)}
 
   initPuzzle();
 
+  window.addEventListener('resize',fitEditorValues);
   window.addEventListener('pageshow',render);render();
 })();
 </script>
