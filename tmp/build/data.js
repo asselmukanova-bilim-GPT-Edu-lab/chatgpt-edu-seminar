@@ -215,3 +215,6 @@ slides.splice(slides.findIndex(s=>s.kind==='edu-overview')+1,0,...[{"base": 8011
 
 // Remove the subject-specific improve-a-prompt examples slide.
 {const index=slides.findIndex(s=>s.kind==='prompt-activity');if(index>=0)slides.splice(index,1);}
+
+// Remove the prompt gaps activity requested by the presenter.
+{const index=slides.findIndex(s=>s.kind==='gaps');if(index>=0)slides.splice(index,1);}
