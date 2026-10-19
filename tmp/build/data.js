@@ -71,7 +71,7 @@ slides.unshift({base:null,kind:'imported',image:'/*NEWCOVER*/',m:0,c:0,t:0,cards
 
 const simulationPageIndex=slides.findIndex(s=>s.simulation);if(simulationPageIndex>=0)slides.splice(10,0,...slides.splice(simulationPageIndex,1));
 
-Object.assign(slides.find(s=>s.kind==="route"),{title:["План семинара","Семинар жоспары"],lead:["",""]});
+Object.assign(slides.find(s=>s.kind==="route"),{title:["План семинара","Семинар мазмұны"],lead:["",""]});
 
 const planPageIndex=slides.findIndex(s=>s.kind==="route");if(planPageIndex!==7)slides.splice(7,0,...slides.splice(planPageIndex,1));
 
