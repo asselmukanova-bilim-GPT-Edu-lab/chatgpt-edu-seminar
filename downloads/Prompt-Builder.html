@@ -240,6 +240,16 @@ form#builder .card textarea::placeholder{color:#454554;opacity:1}
 @media(min-width:1500px){.download-qr{font-size:14px}}
 @media(max-width:900px){.download-qr{position:relative;width:150px;margin:16px auto 0}}
 
+
+/* Give the seven writing cards a little more space to the right. */
+@media(min-width:901px){
+ html[data-view="builder"] .app{grid-template-columns:minmax(0,2.85fr) minmax(0,1fr)}
+ .orbital-builder{padding-left:16px}
+ .preview .block{margin-bottom:9px;padding:3px 8px}
+ .preview .block p,.preview .block h3{font-size:15px;line-height:1.35}
+}
+@media(min-width:1500px){.orbital-builder{padding-left:22px}.preview .block p,.preview .block h3{font-size:18px}}
+
 </style>
 </head>
 <body>
@@ -329,7 +339,11 @@ form#builder .card textarea::placeholder{color:#454554;opacity:1}
 
   function render() {
     fitEditorValues();
-    const blocks=buildBlocks();
+    const entered=buildBlocks();
+    const isExample=!entered.some(block=>block.text);
+    const blocks=isExample?entered.map((block,i)=>({...block,text:sample.texts[i]})):entered;
+    const caption=document.querySelector('.sample-caption');
+    if(caption)caption.textContent=isExample?(kk?'Мысал: қазақ тілі, 5-сынып':'Пример: казахский язык, 5 класс'):(kk?'Сіздің промптыңыз':'Ваш промпт');
     const scroll=preview.scrollTop;
     const fragment=document.createDocumentFragment();
     blocks.forEach((block,index)=>{
@@ -342,7 +356,6 @@ form#builder .card textarea::placeholder{color:#454554;opacity:1}
     });
     preview.replaceChildren(fragment);preview.scrollTop=scroll;
     output.value=blocks.filter(block=>block.text).map(block=>block.name+'. '+block.text).join('\n');
-    if(!output.value){const hint=document.createElement('p');hint.className='empty-preview';hint.textContent=kk?'Жеті өріске өз ойыңызды жазыңыз. Мәтін, сурет, ойын, бейне немесе сайтқа арналған промпт осында жиналады. Өрістердегі мысалдар дайын промптқа қосылмайды.':'Заполните семь полей своими словами. Здесь соберётся ваш промпт для текста, изображения, игры, видео или сайта. Примеры в полях не добавляются в готовый промпт.';preview.append(hint);}
   }
   function notify(text) {
     clearTimeout(toastTimer);$('toast').textContent=text;$('toast').classList.add('show');
