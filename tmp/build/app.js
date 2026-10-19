@@ -158,6 +158,7 @@ if(s.kind==='codex')$('#slide').classList.add('codex-info-slide');
 if(s.kind==='edu-limits')renderFileLimits();
 if(s.kind==='plugin-import'){$('#slide').className='slide plugin-import-slide';$('#slide').innerHTML='<iframe title="'+esc(s.title[lang])+'" src="assets/plugin-import/'+(lang?'kk':'ru')+'.html#'+s.pluginPage+'" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>';}
 if(s.kind==='anatomy-demo'){$('#slide').className='slide anatomy-demo-slide';$('#slide').innerHTML=`<div style="position:absolute;inset:0 0 auto;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:white;border-bottom:1px solid #dfe3f1"><div style="min-width:0"><strong id="slideTitle" style="display:block;font-size:16px">${esc(s.title[lang])}</strong><p style="margin:5px 0 0;font-size:14px;line-height:1.3;color:#536174">${tr('Биология · Цель обучения: 8.1.6.1 — описывать функции опорно-двигательной системы.','Биология · Оқу мақсаты: 8.1.6.1 тірек-қимыл жүйесінің қызметтерін сипаттау.')}</p></div><a href="assets/Anatomiya_3D.html" target="_blank" rel="noopener" style="font-size:14px">${tr('Открыть крупно ↗','Үлкен көріністе ашу ↗')}</a></div><iframe src="assets/Anatomiya_3D.html" title="Анатомия — интерактивный 3D-атлас" allow="fullscreen" allowfullscreen style="position:absolute;top:70px;left:0;width:111.111111%;height:calc(111.111111% - 77.777778px);transform:scale(.9);transform-origin:top left;border:0"></iframe>`;}
+if(s.kind==='listening-lab'){$('#slide').className='slide listening-lab-slide';$('#slide').innerHTML=`<h1 id="slideTitle" class="sr">${esc(s.title[lang])}</h1><iframe src="assets/listening-lab/index.html?lang=${lang?'kk':'ru'}" title="${esc(s.title[lang])}" allow="fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>`;}
 if(s.kind==='ana-uni'){$('#slide').className='slide ana-uni-slide';$('#slide').innerHTML=`<h1 id="slideTitle" class="sr">${tr('Ана үні — интерактивный урок','Ана үні — интерактивті сабақ')}</h1><iframe src="assets/ana-uni/index.html" title="Ана үні: сөзбен қорғалған тағдыр" allow="microphone; fullscreen" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>`;}
 if(s.kind==='soz-game'){$('#slide').className='slide soz-game-slide';$('#slide').innerHTML=`<h1 id="slideTitle" class="sr">${lang?'Сөз зергерлері · 5-сынып':'Word Crafters · Grade 5'}</h1><iframe src="assets/soz-zergerleri/${lang?'index':'english'}.html?v=20261006-grade5" title="${lang?'Сөз зергерлері — қазақ тілі, 5-сынып':'Word Crafters — English, Grade 5'}" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>`;}
 if(s.kind==='html-workshop')renderHTMLWorkshop();
@@ -393,13 +394,13 @@ window.addEventListener('message',e=>{const f=document.querySelector('.prompt-pu
 
 
 function addSubjectViewQR(s){
-const keys={'logic-demo':'logic','soz-game':'soz','ana-uni':'ana','history':'history','anatomy-demo':'anatomy','water-demo':'water','anion-demo':'anion','gravity-demo':'gravity'};
+const keys={'logic-demo':'logic','soz-game':'soz','ana-uni':'ana','listening-lab':'listening','history':'history','anatomy-demo':'anatomy','water-demo':'water','anion-demo':'anion','gravity-demo':'gravity'};
 const key=keys[s.kind];if(!key)return;
 const slide=$('#slide'),frame=slide.querySelector('iframe');if(!frame)return;
 const target=new URL(frame.getAttribute('src'),'https://asselmukanova-bilim-gpt-edu-lab.github.io/chatgpt-edu-seminar/part-2/');
-target.searchParams.delete('v');
-const frameURL=new URL(frame.getAttribute('src'),document.baseURI);frameURL.searchParams.set('v','20261019-qr-overlay');frame.src=frameURL.href;
-const qrKey=key+(['ana','anatomy'].includes(key)?'':(lang?'_kk':'_ru'));
+target.searchParams.delete('v');if(key==='listening')target.searchParams.delete('lang');
+const frameURL=new URL(frame.getAttribute('src'),document.baseURI);frameURL.searchParams.set('v',key==='listening'?'20261019-listening-v1':'20261019-qr-overlay');frame.src=frameURL.href;
+const qrKey=key+(['ana','anatomy','listening'].includes(key)?'':(lang?'_kk':'_ru'));
 const stage=document.createElement('div');stage.className='subject-view-stage';
 while(slide.firstChild)stage.append(slide.firstChild);slide.append(stage);
 const rail=document.createElement('aside');rail.className='subject-view-rail';
