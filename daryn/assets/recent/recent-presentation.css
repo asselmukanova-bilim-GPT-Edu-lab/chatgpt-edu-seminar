@@ -1,0 +1,149 @@
+/* Presentation layouts: the original standalone lesson remains unchanged. */
+html[data-presentation]{height:100%;overflow:hidden}
+html[data-presentation] body{height:100dvh;overflow:hidden;font-size:17px;line-height:1.4;display:flex;flex-direction:column}
+html[data-presentation] header{flex:none;max-width:none;width:100%;padding:14px 26px 10px;margin:0;border-bottom-width:4px}
+html[data-presentation] header .eyebrow{display:none}
+html[data-presentation] h1{font-size:30px;line-height:1.15;margin:0 0 6px;max-width:none;letter-spacing:-.5px}
+html[data-presentation] h1 br{display:none}
+html[data-presentation] header p{font-size:16px;line-height:1.35;max-width:none;margin:0}
+html[data-presentation] main{flex:1;min-height:0;width:100%;max-width:none;padding:12px 26px 16px;margin:0;overflow:hidden}
+html[data-presentation] nav{margin:10px 0 0;gap:10px;flex-wrap:nowrap}
+html[data-presentation] button{font-size:16px;min-height:38px;padding:7px 12px;border-radius:11px}
+html[data-presentation] h2{font-size:24px;line-height:1.2;margin:4px 0 10px}
+html[data-presentation] h3{font-size:21px;line-height:1.2;margin:5px 0 8px}
+html[data-presentation] p{margin:6px 0}
+html[data-presentation] .card{padding:16px;border-radius:20px}
+html[data-presentation] .panel{height:100%;overflow:auto;scrollbar-gutter:stable}
+html[data-presentation] .grid{gap:18px}
+html[data-presentation] .controls{gap:8px;margin-top:12px}
+html[data-presentation] .note{padding:10px 14px;margin-top:10px;border-radius:12px}
+html[data-presentation] body>footer{display:none}
+html[data-presentation] .presentation-tabs button{color:#163b44}
+html[data-presentation] .presentation-tabs button[aria-selected=true]{background:#186d73;color:white;border-color:#186d73}
+
+/* Tomato: illustration and all stage controls share one landscape screen. */
+html[data-presentation=tomato] #cycle{display:none}
+html[data-presentation=tomato] #cycle.active{display:flex;flex-direction:column;gap:8px;overflow:hidden}
+html[data-presentation=tomato] #cycle>.grid{flex:1;min-height:0;grid-template-columns:1fr 1.05fr}
+html[data-presentation=tomato] #cycle .scene{height:100%;align-self:stretch;display:flex;flex-direction:column;padding:0}
+html[data-presentation=tomato] #cycleScene{flex:1;min-height:0}
+html[data-presentation=tomato] #cycleScene svg{height:100%;width:100%;object-fit:contain}
+html[data-presentation=tomato] .scenefoot{min-height:38px;padding:6px 14px}
+html[data-presentation=tomato] #cycle .grid>.card:last-child{overflow:auto}
+html[data-presentation=tomato] #stageTitle{font-size:28px;margin:9px 0}
+html[data-presentation=tomato] .steps{margin:12px 0;gap:8px}
+html[data-presentation=tomato] .steps button{height:36px;min-height:36px;aspect-ratio:auto}
+html[data-presentation=tomato] #cycle>.note{font-size:15px;flex:none;margin:0}
+html[data-presentation=tomato] #lab .grid{grid-template-columns:1fr 1.05fr}
+html[data-presentation=tomato] #labScene svg{height:255px;width:100%}
+html[data-presentation=tomato] #lab .scene{padding:0}
+html[data-presentation=tomato] .sliders label{margin:5px 0 0}
+html[data-presentation=tomato] .sliders input{min-height:26px}
+html[data-presentation=tomato] .sliders .controls{display:grid;grid-template-columns:1fr 1fr}
+html[data-presentation=tomato] #lab .two{margin-top:12px;gap:18px}
+html[data-presentation=tomato] #lab .lab-explanations{margin-top:10px;padding:8px 12px;background:white;border-radius:12px;font-size:15px}
+html[data-presentation=tomato] #lab .lab-explanations .two{display:block}
+html[data-presentation=tomato] #lab .lab-explanations article{margin:10px 0;padding:12px}
+html[data-presentation=tomato] #lab>details{padding:8px 12px!important;margin-top:10px!important;font-size:14px}
+html[data-presentation=tomato] #practice.active{overflow:hidden}
+html[data-presentation=tomato] #practice>.grid{height:100%;grid-template-columns:1fr 1fr}
+html[data-presentation=tomato] #practice article{min-height:0;overflow:auto}
+html[data-presentation=tomato] .sortlist li{padding:4px 8px;margin:5px 0}
+html[data-presentation=tomato] .sortlist button{padding:3px 10px;min-height:30px}
+html[data-presentation=tomato] #practice .controls{position:sticky;bottom:0;background:white;padding:8px 0;z-index:1}
+html[data-presentation=tomato] .question{padding:12px 0}
+
+/* Sugar: four preserved lesson sections become tabs. */
+html[data-presentation=sugar] main{display:flex;flex-direction:column;gap:10px}
+html[data-presentation=sugar] .notice{font-size:15px;padding:9px 14px;margin:0;flex:none}
+html[data-presentation=sugar] .presentation-page{flex:1;min-height:0;overflow:auto;margin:0}
+html[data-presentation=sugar] .presentation-page[hidden]{display:none!important}
+html[data-presentation=sugar] .theater{padding:0;display:flex;flex-direction:column}
+html[data-presentation=sugar] .bar{padding:10px 16px;flex:none}
+html[data-presentation=sugar] .cinema{flex:1;min-height:0;grid-template-columns:minmax(0,1fr) 290px;padding:10px 16px;gap:16px}
+html[data-presentation=sugar] .cinema svg{width:100%;height:100%;min-height:0}
+html[data-presentation=sugar] .scene-notes{max-height:100%;overflow:auto;padding:8px}
+html[data-presentation=sugar] .scene-notes h3{font-size:24px}
+html[data-presentation=sugar] .scene-notes p{font-size:17px}
+html[data-presentation=sugar] .scene-controls{padding:8px 16px 12px;align-items:center;flex:none}
+html[data-presentation=sugar] .layout{overflow:hidden;grid-template-columns:minmax(0,1fr) 340px;gap:18px}
+html[data-presentation=sugar] .layout>section{padding:0;display:flex;flex-direction:column;min-height:0}
+html[data-presentation=sugar] .map{flex:1;min-height:0;padding:0}
+html[data-presentation=sugar] .map svg{height:100%;width:100%}
+html[data-presentation=sugar] .layout .controls{padding:8px 14px;margin:0;align-items:center}
+html[data-presentation=sugar] .caption{padding:0 14px 8px;font-size:12px}
+html[data-presentation=sugar] .side{overflow:auto}
+html[data-presentation=sugar] .explore{padding:24px}
+html[data-presentation=sugar] .quiz{padding:16px 22px}
+html[data-presentation=sugar] .quiz .controls{position:sticky;bottom:0;background:white;z-index:1}
+html[data-presentation=sugar] .q{padding:12px 0}
+html[data-presentation=sugar] .steps button{min-height:12px;height:12px}
+html[data-presentation=sugar] main>footer{padding:16px 22px;background:white;border-radius:20px}
+html[data-presentation=sugar] .molecule-stage-tabs{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;margin-top:10px}
+html[data-presentation=sugar] .molecule-stage-tabs[hidden]{display:none}
+html[data-presentation=sugar] .molecule-stage-tabs button{display:flex;align-items:center;gap:7px;text-align:left;background:#ffffffed;color:#163b44;border:1px solid #b9d5d7;font-size:14px;line-height:1.2;min-height:46px;padding:6px 8px}
+html[data-presentation=sugar] .molecule-stage-tabs button span{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#e0f0ec;flex:none;font-weight:750}
+html[data-presentation=sugar] .molecule-stage-tabs button[aria-pressed=true]{background:#ffedb0;color:#173b44;border-color:#e8b64d;box-shadow:0 0 0 1px #e8b64d}
+html[data-presentation=sugar] .molecule-stage-tabs button[aria-pressed=true] span{background:#166d70;color:white}
+html[data-presentation=sugar] #scenePrev,html[data-presentation=sugar] #sceneNext,html[data-presentation=sugar] #prev,html[data-presentation=sugar] #next{display:none}
+
+/* Ornaments: compact, evenly sized illustrations and a landscape workshop. */
+html[data-presentation=oyu] main{display:flex;flex-direction:column;gap:10px}
+html[data-presentation=oyu] main>nav{margin:0;flex:none}
+html[data-presentation=oyu] .panel.active{flex:1;min-height:0}
+html[data-presentation=oyu] .lead{font-size:17px;margin-bottom:10px}
+html[data-presentation=oyu] .grid{gap:16px}
+html[data-presentation=oyu] .art{min-height:0;height:118px;padding:8px}
+html[data-presentation=oyu] .card .motif{height:103px;max-width:220px}
+html[data-presentation=oyu] .card p{font-size:17px;line-height:1.35}
+html[data-presentation=oyu] .card .objects{margin:8px 0 0}
+html[data-presentation=oyu] .textile-picture,html[data-presentation=oyu] .syrmak-picture{max-height:75px}
+html[data-presentation=oyu] .row{margin:10px 0;gap:10px}
+html[data-presentation=oyu] .small{font-size:13px}
+html[data-presentation=oyu] .feedback{min-height:40px;padding:9px 14px;margin:10px 0}
+html[data-presentation=oyu] .match-card button{font-size:16px;min-height:33px;padding:5px}
+html[data-presentation=oyu] .studio{grid-template-columns:1fr 1.1fr;gap:20px}
+html[data-presentation=oyu] .tools{padding:14px}
+html[data-presentation=oyu] .tools h3{font-size:18px;margin:5px 0}
+html[data-presentation=oyu] .swatch{width:36px;height:36px;padding:0;min-height:36px}
+html[data-presentation=oyu] .rug{padding:8px;border-width:8px;gap:5px;max-width:570px;margin:auto}
+html[data-presentation=oyu] .rug button{min-height:78px}
+html[data-presentation=oyu] .rug .motif{height:70px}
+html[data-presentation=oyu] main>details{flex:none;margin:0}
+html[data-presentation=oyu] main>details[open]{position:absolute;inset:110px 26px 16px;background:white;padding:20px;overflow:auto;border-radius:20px;z-index:5}
+html[data-presentation=oyu] summary{padding:4px;font-size:14px}
+
+/* Car: model and controls visible together, no document scrolling. */
+html[data-presentation=car] main{display:grid;grid-template-columns:minmax(0,1fr) 325px;grid-template-rows:auto auto minmax(0,1fr);gap:8px 18px;padding:20px 26px;height:100dvh;flex:none}
+html[data-presentation=car] #title{grid-column:1/-1;font-size:30px;margin:0}
+html[data-presentation=car] .subtitle{grid-column:1/-1;font-size:16px;max-width:1150px;margin:0}
+html[data-presentation=car] #status{display:none}
+html[data-presentation=car] #stage{grid-column:1;grid-row:3;height:100%;min-height:0;margin:8px 0 0}
+html[data-presentation=car] .model-sidebar{grid-column:2;grid-row:3;min-height:0;overflow:auto;padding-top:8px;display:flex;flex-direction:column;gap:12px}
+html[data-presentation=car] .assembly-control{padding:14px;margin:0}
+html[data-presentation=car] .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+html[data-presentation=car] .detail{margin:0;padding:14px;font-size:17px;line-height:1.4;flex:1}
+html[data-presentation=car] .model-sidebar footer{font-size:12px;line-height:1.4;margin:0}
+
+/* Detailed sedan: retain its native interactive laboratory in a 16:9 frame. */
+html[data-presentation=sedan] body{display:block;font-size:14px;line-height:1.45}
+html[data-presentation=sedan] header{height:64px;padding:0 22px}
+html[data-presentation=sedan] .heading h1{font-size:17px;margin:0;letter-spacing:0}
+html[data-presentation=sedan] .heading p{font-size:12px;margin:2px 0 0}
+html[data-presentation=sedan] header button{font-size:13px;min-height:36px;padding:8px 12px}
+html[data-presentation=sedan] main.app{height:calc(100dvh - 64px);min-height:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr) 310px;grid-template-rows:minmax(0,1fr) auto;overflow:hidden}
+html[data-presentation=sedan] .stage-top{top:14px;left:20px}
+html[data-presentation=sedan] .stage-top h2{font-size:25px;margin:5px 0}
+html[data-presentation=sedan] .side{padding:14px 16px 10px;gap:10px}
+html[data-presentation=sedan] .side h2{font-size:15px;margin:0}
+html[data-presentation=sedan] .selection{min-height:120px;padding:11px}
+html[data-presentation=sedan] .selection h3{font-size:17px;margin:6px 0 8px}
+html[data-presentation=sedan] .selection p{font-size:12px;margin:0}
+html[data-presentation=sedan] .paint{padding-bottom:10px}
+html[data-presentation=sedan] .swatch{width:23px;height:23px;min-height:23px;padding:0}
+html[data-presentation=sedan] .part{font-size:12px;padding:7px;min-height:32px}
+html[data-presentation=sedan] .controls{padding:10px 22px 12px;margin:0;gap:12px 22px;grid-template-columns:1fr auto}
+html[data-presentation=sedan] .actions button{font-size:13px;padding:9px 11px;min-height:36px}
+html[data-presentation=sedan] .extras{margin-top:7px}
+html[data-presentation=sedan] .extras button{font-size:12px;padding:5px 9px;min-height:30px}
+html[data-presentation=sedan] .view-buttons button{font-size:12px;min-height:30px;padding:6px 9px}

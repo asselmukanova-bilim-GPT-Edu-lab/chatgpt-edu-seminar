@@ -1,0 +1,19 @@
+{
+  "change": "Layout-only adaptation of four existing interactives to the 1280x720 presentation frame",
+  "materials": ["tomato-cycle.html", "sugar.html", "oyu-sabaq.html", "car-3d.html"],
+  "activation": "?presentation=1; standalone layouts preserved",
+  "source": "Existing user project materials; no curriculum objectives or task answers changed",
+  "browser": "Microsoft Edge, Playwright headless, local files",
+  "checked_viewports": ["1280x720 standalone presentation mode", "1366x768 host deck", "1920x1080 host deck"],
+  "locales": ["RU deck", "KK deck"],
+  "checks": {
+    "frame_and_document_dimensions": "passed: all four documents 1280x720 without page overflow",
+    "tomato": "passed: stage transition, lab water control and reset, ordering hint and check, quiz retry",
+    "sugar": "passed: all five tabs, molecular transition, map transition and reset, quiz submit and retry",
+    "ornaments": "passed: matching choice, design cell placement and clear",
+    "car": "replaced with AVTO detailed sedan; passed: 89 parts, 16:9 frame, disassembly slider 0/35/100%, part selection, search and category filter, paint, doors, hood, engine, labels, help, reset and RU/KK deck embedding",
+    "javascript_page_errors": "none observed",
+    "visual_review": "reviewed screenshots of four start screens, tomato lab and practice, sugar map, ornament workshop"
+  },
+  "limits": ["Long quizzes scroll inside their own panel; all questions retained", "Existing subject content was preserved; this change did not include a new subject-matter audit"]
+}
