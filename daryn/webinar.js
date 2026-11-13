@@ -38,7 +38,8 @@ function body(s){const p=x=>x.split('|');switch(s.kind){
 
  case'data-care':return `<p class="data-intro">${esc(s.intro)}</p><div class="data-categories">`+s.body.map((x,i)=>`<section class="data-item" style="--item:${i}"><h2>${esc(p(x)[0])}</h2><p>${esc(p(x)[1])}</p></section>`).join('')+'</div><div class="data-workflow">'+s.workflow.map((x,i)=>`<section><span>${i+1}</span><div><h3>${esc(p(x)[0])}</h3><p>${esc(p(x)[1])}</p></div></section>`).join('')+'</div>';
  case'ai-responsibility':return `<p class="ethics-intro">${esc(s.intro)}</p><div class="ethics-principles">`+s.body.map((x,i)=>`<section><div class="ethics-vignette ethics-vignette-${i}" role="img" aria-label="${esc(p(x)[0])}"></div><div><h2><span class="principle-number">0${i+1}</span>${esc(p(x)[0])}</h2></div></section>`).join('')+'</div>';
- case'route':case'flow':return '<div class="steps">'+s.body.map((x,i)=>`<div class="step"><b>0${i+1}</b><span>${esc(x)}</span></div>`).join('')+'</div>';
+ case'route':return '<div class="agenda-grid">'+s.body.map((x,i)=>`<section><span class="agenda-number">0${i+1}</span><div><h2>${esc(p(x)[0])}</h2><p>${esc(p(x)[1])}</p></div></section>`).join('')+'</div>';
+ case'flow':return '<div class="steps">'+s.body.map((x,i)=>`<div class="step"><b>0${i+1}</b><span>${esc(x)}</span></div>`).join('')+'</div>';
  case'compare':return '<div class="comparison">'+s.body.map(x=>`<section><h2>${esc(p(x)[0])}</h2><p>${esc(p(x)[1])}</p></section>`).join('')+'</div>';
  case'pairs':case'tools':return `<div class="pairs ${s.body.length===3?'three':''}">`+s.body.map(x=>`<article><h2>${esc(p(x)[0])}</h2><p>${esc(p(x)[1])}</p></article>`).join('')+'</div>'+(s.source?'<div class="actions">'+buttons(s.source,'Показать исходный интерфейс')+'</div>':'');
  case'formula':return '<div class="formula">'+s.body.map(x=>`<span>${esc(x)}</span>`).join('')+'</div>';
